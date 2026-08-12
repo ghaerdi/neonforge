@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@source "../../../react/ui";
+@source "../../../lib";
+@source "../../../styles";
+@source "./";
+
+@import "../../../styles/theme.css";

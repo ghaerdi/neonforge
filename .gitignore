@@ -1,0 +1,23 @@
+node_modules/
+dist/
+.next/
+nextjs/.next/
+.env*
+.env.**
+public/r/
+.scratch/
+.scratch2/
+.pi-lens/
+*.log
+.DS_Store
+
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

@@ -1,0 +1,1211 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Neon glass button with glow variants for the neonforge design system.",
+      "dependencies": [
+        "@radix-ui/react-slot",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Glassmorphic text input with neon focus glow.",
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "ui/use-streetkid.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "ui/carve-br.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Industrial uppercase plate-style form label.",
+      "dependencies": [
+        "@radix-ui/react-label"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Glass panel card with optional chamfered (cut-corner) corners.",
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Mono uppercase badge with neon status variants.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Glass tooltip with mono uppercase label text.",
+      "dependencies": [
+        "@radix-ui/react-tooltip"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Glassmorphic modal dialog with chamfered corners and zoom animation.",
+      "dependencies": [
+        "@radix-ui/react-dialog",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Glass dropdown menu with neon hover states.",
+      "dependencies": [
+        "@radix-ui/react-dropdown-menu",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Industrial data table with plate-style headers.",
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Glass tabs with neon active indicator glow.",
+      "dependencies": [
+        "@radix-ui/react-tabs"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Neon accordion with smooth height animation.",
+      "dependencies": [
+        "@radix-ui/react-accordion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Neon progress bar with glow indicator.",
+      "dependencies": [
+        "@radix-ui/react-progress"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Loading skeleton with cyber shimmer sweep.",
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Square industrial avatar with neon gradient fallback.",
+      "dependencies": [
+        "@radix-ui/react-avatar"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Thin glass divider line.",
+      "dependencies": [
+        "@radix-ui/react-separator"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Glass select dropdown with neon focus glow.",
+      "dependencies": [
+        "@radix-ui/react-select",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/select.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "ui/use-streetkid.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "ui/carve-br.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Industrial toggle switch with neon on-state.",
+      "dependencies": [
+        "@radix-ui/react-switch"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Neon checkbox with glow checked state.",
+      "dependencies": [
+        "@radix-ui/react-checkbox",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Neon radio group with glow selection.",
+      "dependencies": [
+        "@radix-ui/react-radio-group",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Neon range slider with glowing thumb.",
+      "dependencies": [
+        "@radix-ui/react-slider"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Searchable select built on command + popover.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/button",
+        "ghaerdi/neonforge/command",
+        "ghaerdi/neonforge/popover",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Glass popover container used by combobox and menus.",
+      "dependencies": [
+        "@radix-ui/react-popover"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Command palette primitives for search and combobox.",
+      "dependencies": [
+        "cmdk",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/dialog",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/command.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Glass slide-in panel from any edge.",
+      "dependencies": [
+        "@radix-ui/react-dialog",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Glass toast notifications powered by sonner.",
+      "dependencies": [
+        "sonner"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/toast.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Collapsible glass sidebar with mobile sheet fallback.",
+      "dependencies": [
+        "lucide-react",
+        "class-variance-authority",
+        "@radix-ui/react-slot"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/button",
+        "ghaerdi/neonforge/input",
+        "ghaerdi/neonforge/separator",
+        "ghaerdi/neonforge/sheet",
+        "ghaerdi/neonforge/skeleton",
+        "ghaerdi/neonforge/tooltip",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/sidebar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Neonforge alert component.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Neonforge alert-dialog component.",
+      "dependencies": [
+        "@radix-ui/react-alert-dialog",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/button"
+      ],
+      "files": [
+        {
+          "path": "ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Neonforge aspect-ratio component.",
+      "dependencies": [
+        "@radix-ui/react-aspect-ratio"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Neonforge breadcrumb component.",
+      "dependencies": [
+        "@radix-ui/react-slot",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Neonforge button-group component.",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/button",
+        "ghaerdi/neonforge/separator"
+      ],
+      "files": [
+        {
+          "path": "ui/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Neonforge calendar component.",
+      "dependencies": [
+        "react-day-picker@latest",
+        "date-fns",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/button"
+      ],
+      "files": [
+        {
+          "path": "ui/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Neonforge carousel component.",
+      "dependencies": [
+        "embla-carousel-react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/button"
+      ],
+      "files": [
+        {
+          "path": "ui/carousel.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Recharts-based charting with the neonforge design system.",
+      "dependencies": [
+        "recharts@3.8.0",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/card"
+      ],
+      "files": [
+        {
+          "path": "ui/chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Neonforge collapsible component.",
+      "dependencies": [
+        "@radix-ui/react-collapsible",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/collapsible.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Neonforge context-menu component.",
+      "dependencies": [
+        "@radix-ui/react-context-menu",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Neonforge drawer component.",
+      "dependencies": [
+        "vaul",
+        "@radix-ui/react-dialog",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Neonforge empty component.",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/empty.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Neonforge field component.",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/label",
+        "ghaerdi/neonforge/separator"
+      ],
+      "files": [
+        {
+          "path": "ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "Neonforge form component.",
+      "dependencies": [
+        "@radix-ui/react-label",
+        "@radix-ui/react-slot",
+        "@hookform/resolvers",
+        "zod",
+        "react-hook-form"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/button",
+        "ghaerdi/neonforge/label"
+      ],
+      "files": [
+        {
+          "path": "ui/form.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "Neonforge hover-card component.",
+      "dependencies": [
+        "@radix-ui/react-hover-card"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/hover-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Neonforge input-group component.",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/button",
+        "ghaerdi/neonforge/input",
+        "ghaerdi/neonforge/textarea"
+      ],
+      "files": [
+        {
+          "path": "ui/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input Otp",
+      "description": "Neonforge input-otp component.",
+      "dependencies": [
+        "input-otp"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "Neonforge item component.",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/separator"
+      ],
+      "files": [
+        {
+          "path": "ui/item.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Neonforge kbd component.",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "Neonforge menubar component.",
+      "dependencies": [
+        "@radix-ui/react-menubar",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/menubar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "Neonforge navigation-menu component.",
+      "dependencies": [
+        "@radix-ui/react-navigation-menu",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/navigation-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Neonforge pagination component.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/button"
+      ],
+      "files": [
+        {
+          "path": "ui/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Neonforge resizable component.",
+      "dependencies": [
+        "react-resizable-panels",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/resizable.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Neonforge scroll-area component.",
+      "dependencies": [
+        "@radix-ui/react-scroll-area"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/scroll-area.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "Neonforge sonner component.",
+      "dependencies": [
+        "sonner",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/sonner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Neonforge spinner component.",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Neonforge textarea component.",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Neonforge toggle component.",
+      "dependencies": [
+        "@radix-ui/react-toggle"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Neonforge toggle-group component.",
+      "dependencies": [
+        "@radix-ui/react-toggle-group"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/toggle"
+      ],
+      "files": [
+        {
+          "path": "ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "RTL direction provider wrapper (Radix DirectionProvider + useDirection) for the neonforge design system.",
+      "dependencies": [
+        "@radix-ui/react-direction"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/direction.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "Styled native HTML select with HUD chevron, size variants and group support.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/native-select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "Typography",
+      "description": "HUD-styled text primitives: mono uppercase headings, paragraphs, blockquote, lists, inline code, table.",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/typography.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "Calendar + Popover composition with formatted trigger button.",
+      "dependencies": [
+        "date-fns",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/calendar",
+        "ghaerdi/neonforge/button",
+        "ghaerdi/neonforge/popover"
+      ],
+      "files": [
+        {
+          "path": "ui/date-picker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "TanStack Table wrapper with sorting, filtering, column visibility and pagination.",
+      "dependencies": [
+        "@tanstack/react-table@8",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils",
+        "ghaerdi/neonforge/table",
+        "ghaerdi/neonforge/button",
+        "ghaerdi/neonforge/input",
+        "ghaerdi/neonforge/dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "ui/data-table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "frame",
+      "type": "registry:ui",
+      "title": "Frame",
+      "description": "Bordered container shell for previews, code blocks and showcase panels. Defaults to a bottom-right (br) corner clip with a crisp border that follows the diagonal.",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/frame.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

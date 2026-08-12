@@ -1,0 +1,7 @@
+{
+  "tasks": {
+    "dev": "deno run -A --no-check node_modules/.bin/next dev --turbopack",
+    "build": "bun run build",
+    "start": "deno run -A --no-check node_modules/.bin/next start"
+  }
+}

@@ -1,0 +1,60 @@
+name: ci
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    name: registry + tests + typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies (root)
+        run: bun install --frozen-lockfile
+
+      - name: Install dependencies (nextjs)
+        run: cd nextjs && bun install --frozen-lockfile
+
+      - name: Build registry payloads
+        run: bun run scripts/build-registry.mjs
+
+      - name: Typecheck
+        run: cd nextjs && bun x tsc --noEmit
+
+      - name: Test suite
+        run: bun run test
+
+  build:
+    name: next build (71 pages)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies (root)
+        run: bun install --frozen-lockfile
+
+      - name: Install dependencies (nextjs)
+        run: cd nextjs && bun install --frozen-lockfile
+
+      - name: Build the Next.js site
+        run: cd nextjs && bun run next build

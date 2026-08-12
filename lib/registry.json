@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "items": [
+    {
+      "name": "lib-utils",
+      "type": "registry:lib",
+      "title": "lib-utils",
+      "description": "cn() class merge utility (clsx + tailwind-merge). Required by all neonforge components.",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "files": [
+        {
+          "path": "utils.ts",
+          "type": "registry:lib",
+          "target": "@lib/utils.ts"
+        }
+      ]
+    }
+  ]
+}

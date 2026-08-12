@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "bf758e06-a701-4abc-89cd-44afe18a261a",
+  "title": "Refactor the CreateShowcase monolith in the neonforge repo.",
+  "objective": "Refactor the CreateShowcase monolith in the neonforge repo.\n\nCONTEXT: /home/ghaerdi/Documents/Projects/neonforge/nextjs/src/components/create/CreateShowcase.tsx is a 1500-line single file with ~23 widget components plus shared primitives. The goal is to split it into logical modules WITHOUT changing any rendered output.\n\nALREADY DONE (do not redo): src/components/create/card-ui.tsx has been created with the shared primitives ShowcaseCard, Meter, RainChance, Masonry, and shared data arrays TXNS, POWER, SYS, VITALS (all exported).\n\nYOUR JOB:\n1. Read the full CreateShowcase.tsx.\n2. Rewrite CreateShowcase.tsx to IMPORT { ShowcaseCard, Meter, RainChance, Masonry, TXNS, POWER, SYS, VITALS } from \"./card-ui\"; (and any widget group files you create). Remove the local copies of those primitives/data from CreateShowcase.tsx. Keep all widget function bodies byte-identical.\n3. Move the ~23 widget functions (WeatherWidget, SystemTelemetry, ProfileWidget, DiscordProfile, SystemControls, HealthMonitor, SleepTracker, CyberpsychosisMonitor, DeviantMonitor, VehicleWidget, NetMonitor, ControlPanelWidget, HomeAssistant, DisasterAlerts, Messenger, MusicPlayer, BankWidget, NewsWidget, TravelWidget, DeliveryWidget, WorldWidgets) into logical group files under src/components/create/. Suggested grouping (your choice, keep it sensible): \n   - telemetry.tsx: SystemTelemetry, HealthMonitor, SleepTracker, CyberpsychosisMonitor, DeviantMonitor, NetMonitor\n   - atmosphere.tsx: WeatherWidget, SystemControls, ControlPanelWidget, HomeAssistant, DisasterAlerts, VehicleWidget\n   - social.tsx: ProfileWidget, DiscordProfile, Messenger, MusicPlayer\n   - economy.tsx: BankWidget, NewsWidget, TravelWidget, DeliveryWidget, WorldWidgets\n   Each group file imports only what IT needs (lucide icons, recharts, ui components, and from ./card-ui).\n4. CreateShowcase.tsx imports all widgets from the group files + card-ui, and the existing default/content markup stays identical. It must still export CreateShowcase which renders <Masonry> with all widgets in the SAME order as currently.\n5. The SLEEP data array lives INSIDE SleepTracker (leave it inlined there). The recharts imports must be split per-group (only what each file uses).\n\nHARD RULES:\n- No behavior change. Every widget renders identically to before the refactor.\n- Keep the exact same widget ORDER in the masonry grid as the current file (ProfileWidget, DiscordProfile, WeatherWidget, SystemTelemetry, SystemControls, HealthMonitor, SleepTracker, CyberpsychosisMonitor, DeviantMonitor, VehicleWidget, NetMonitor, HomeAssistant, DisasterAlerts, ControlPanelWidget, Messenger, MusicPlayer, BankWidget, NewsWidget, TravelWidget, DeliveryWidget, WorldWidgets, LoginShowcase).\n- LoginShowcase is imported from \"./AuthBlocks\" — keep that.\n- \"use client\" at top of each new file with any JSX.\n- The deno-linter '@/' alias warnings are FALSE POSITIVES — ignore them. The real gate is tsc.\n\nVERIFY AFTER: cd nextjs && node_modules/.bin/tsc --noEmit  (must pass). Then boot",
+  "status": "failed",
+  "createdAt": "2026-08-14T19:12:26.020Z",
+  "updatedAt": "2026-08-14T19:12:26.121Z",
+  "runs": [
+    {
+      "runId": "489b10b3-6fd9-418c-b7d8-eb4ff497fc47",
+      "mode": "workflow",
+      "asyncDir": "/tmp/pi-subagents-uid-1000/async-subagent-runs/489b10b3-6fd9-418c-b7d8-eb4ff497fc47",
+      "status": "failed",
+      "startedAt": "2026-08-14T19:12:26.022Z",
+      "completedAt": "2026-08-14T19:12:26.121Z"
+    }
+  ],
+  "workflowChildren": [],
+  "decisions": [],
+  "artifacts": [
+    {
+      "kind": "status",
+      "path": "/tmp/pi-subagents-uid-1000/async-subagent-runs/489b10b3-6fd9-418c-b7d8-eb4ff497fc47/status.json"
+    },
+    {
+      "kind": "other",
+      "path": "/tmp/pi-subagents-uid-1000/async-subagent-runs/489b10b3-6fd9-418c-b7d8-eb4ff497fc47/events.jsonl",
+      "description": "Lifecycle events"
+    }
+  ],
+  "receipts": [],
+  "cwd": "/home/ghaerdi/Documents/Projects/neonforge",
+  "ownerSessionId": "/home/ghaerdi/.pi/agent/sessions/--home-ghaerdi-Documents-Projects-neonforge--/2026-08-13T07-21-04-375Z_019ff9fe-f876-7ae4-aebb-a8d1fe0dfbfb.jsonl",
+  "summary": "workflowScript must be valid JavaScript.\nIf task text contains Markdown fences or backticks, use an array joined with \"\\n\" or escaped strings instead of a raw backtick template literal.\n\nOriginal SyntaxError:\nworkflow-script.js:27\nVERIFY AFTER: cd nextjs && node_modules/.bin/tsc --noEmit  (must pass). Then boot `timeout 45 node_modules/.bin/next dev --turbopack --port 4567 &` , wait, and confirm GET http://localhost:4567/create returns 200 and contains \"Cyberpunk widgets\" and \"Sleep tracker\". Report the final file list and tsc/build result.`})\n                                                                                   ^^^^^^^\n\nSyntaxError: Unexpected identifier 'timeout'\n    at new Script (node:vm:117:7)\n    at MessagePort.<anonymous> ([worker eval]:298:18)\n    at [nodejs.internal.kHybridDispatch] (node:internal/event_target:843:20)\n    at MessagePort.<anonymous> (node:internal/per_context/messageport:23:28)"
+}

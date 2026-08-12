@@ -1,0 +1,10 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "neonforge",
+  "homepage": "https://github.com/ghaerdi/neonforge",
+  "include": [
+    "react/registry.json",
+    "styles/registry.json",
+    "lib/registry.json"
+  ]
+}
