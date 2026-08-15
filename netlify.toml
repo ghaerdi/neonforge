@@ -8,10 +8,8 @@
   command = "root=$(cd \"${ROOT:-.}\" >/dev/null 2>&1; pwd -P); [ -f \"$root/nextjs/package.json\" ] || root=\"$root/..\"; (cd \"$root\" && bun install --frozen-lockfile) && (cd \"$root/nextjs\" && bun install --frozen-lockfile) && (cd \"$root/nextjs\" && bun run build)"
   publish = "nextjs/.next"
 
-# Required to serve the Next.js app. Publishing raw .next does NOT run the app
-# (build artifacts only → Netlify's generic 404). This plugin wires the Next.js
-# runtime (next start + RSC/ISR + routing) over the .next output.
+# Serve the Next.js app. Publishing raw .next only ships build artifacts, so
+# Netlify served its generic 404. The Next.js adapter (OpenNext) wires the
+# runtime — SSR/ISR/route handlers/server actions over the .next output.
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-  [plugins.inputs]
-    buildBaseDirectory = "nextjs"
