@@ -28,19 +28,68 @@ import { Switch } from "@/components/ui/switch";
 import { RainChance, ShowcaseCard } from "./card-ui";
 
 export function WeatherWidget() {
+	// temps kept in °C; convert to °F when toggled.
+	const hourly = [
+		["now", 18, "rain", 72],
+		["+2h", 19, "clear", 48],
+		["+4h", 16, "smog", 63],
+		["+6h", 14, "rain", 81],
+		["+8h", 12, "storm", 94],
+		["+10h", 11, "clear", 34],
+	] as [string, number, string, number][];
+	const daily = [
+		["mon", [14, 6], "acid rain"],
+		["tue", [18, 9], "clear"],
+		["wed", [12, 5], "storm"],
+		["thu", [16, 8], "smog"],
+	] as [string, [number, number], string][];
+
+	const [unit, setUnit] = React.useState<"c" | "f">("c");
+	const fmt = (c: number) =>
+		unit === "c" ? `${Math.round(c)}°` : `${Math.round((c * 9) / 5 + 32)}°`;
+
 	return (
 		<ShowcaseCard title="Weather uplink" sub="Night City · Watson district">
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-3">
 					<CloudRain className="size-9 text-info" />
 					<div>
-						<p className="font-mono text-2xl font-bold text-foreground">18°C</p>
+						<p className="font-mono text-2xl font-bold text-foreground">
+							{fmt(hourly[0][1])}
+							<span className="ml-1 text-sm font-normal text-muted-foreground">
+								{unit === "c" ? "C" : "F"}
+							</span>
+						</p>
 						<p className="font-mono text-[0.625rem] uppercase tracking-widest text-muted-foreground">
 							acid rain · UV 03
 						</p>
 					</div>
 				</div>
 				<div className="flex flex-col items-end gap-1.5">
+					<div className="flex items-center gap-1 rounded-sm border border-glass-border p-0.5">
+						<button
+							type="button"
+							onClick={() => setUnit("c")}
+							className={`rounded px-1.5 py-0.5 font-mono text-[0.5625rem] uppercase transition-colors ${
+								unit === "c"
+									? "bg-primary/15 text-primary"
+									: "text-muted-foreground hover:text-foreground"
+							}`}
+						>
+							°C
+						</button>
+						<button
+							type="button"
+							onClick={() => setUnit("f")}
+							className={`rounded px-1.5 py-0.5 font-mono text-[0.5625rem] uppercase transition-colors ${
+								unit === "f"
+									? "bg-primary/15 text-primary"
+									: "text-muted-foreground hover:text-foreground"
+							}`}
+						>
+							°F
+						</button>
+					</div>
 					<Badge variant="info" className="uppercase">
 						smog alert
 					</Badge>
@@ -55,14 +104,7 @@ export function WeatherWidget() {
 					next hours
 				</p>
 				<div className="grid grid-cols-3 gap-2">
-					{[
-						["now", "18°", "rain", 72],
-						["+2h", "19°", "clear", 48],
-						["+4h", "16°", "smog", 63],
-						["+6h", "14°", "rain", 81],
-						["+8h", "12°", "storm", 94],
-						["+10h", "11°", "clear", 34],
-					].map(([t, v, cond, hum]) => (
+					{hourly.map(([t, v, cond, hum]) => (
 						<div
 							key={String(t)}
 							className="rounded-md border border-glass-border bg-secondary/10 p-2 text-center"
@@ -71,7 +113,7 @@ export function WeatherWidget() {
 								{t}
 							</p>
 							<p className="mt-0.5 font-mono text-sm font-bold text-foreground">
-								{v}
+								{fmt(v)}
 							</p>
 							<p className="font-mono text-[0.5rem] uppercase tracking-widest text-muted-foreground/60">
 								{cond}
@@ -90,12 +132,7 @@ export function WeatherWidget() {
 					next days
 				</p>
 				<div className="flex flex-col gap-1.5">
-					{[
-						["mon", "14° / 6°", "acid rain"],
-						["tue", "18° / 9°", "clear"],
-						["wed", "12° / 5°", "storm"],
-						["thu", "16° / 8°", "smog"],
-					].map(([d, range, cond]) => (
+					{daily.map(([d, [hi, lo], cond]) => (
 						<div
 							key={String(d)}
 							className="flex items-center justify-between rounded-md border border-glass-border bg-secondary/10 px-3 py-1.5"
@@ -107,7 +144,7 @@ export function WeatherWidget() {
 								{cond}
 							</span>
 							<span className="font-mono text-xs font-bold text-foreground">
-								{range}
+								{fmt(hi)} / {fmt(lo)}
 							</span>
 						</div>
 					))}

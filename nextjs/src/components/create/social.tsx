@@ -5,6 +5,7 @@ import * as React from "react";
 import {
 	Headphones,
 	MessageCircle,
+	Pause,
 	Phone,
 	Play,
 	Radio,
@@ -292,6 +293,38 @@ export function MusicPlayer() {
 		["Rite of the End — SAMURAI", "Black Dog"],
 		["Night City Anthem", "Veuclid"],
 	];
+	const stations = [
+		["Pacifica FM", "103.1"],
+		["Morro Rock", "Rock 91.9"],
+		["Night City Radio", "92.0"],
+	];
+
+	const [playing, setPlaying] = React.useState(false);
+	const [trackIdx, setTrackIdx] = React.useState(0);
+	const [station, setStation] = React.useState(0);
+	const [progress, setProgress] = React.useState(0);
+
+	// Simulate playback: advance a 0–100 progress bar while playing.
+	React.useEffect(() => {
+		if (!playing) return;
+		const id = window.setInterval(() => {
+			setProgress((p) => {
+				if (p >= 100) return 0; // loop the track
+				return p + 2;
+			});
+		}, 600);
+		return () => window.clearInterval(id);
+	}, [playing]);
+
+	// Selecting a track from the queue resets progress and starts playing.
+	const selectTrack = (i: number) => {
+		setTrackIdx(i);
+		setProgress(0);
+		setPlaying(true);
+	};
+
+	const [title, album] = tracks[trackIdx];
+
 	return (
 		<ShowcaseCard title="Radio / music" sub="morro rock · pirate band">
 			<div className="flex items-center gap-3 rounded-md border border-primary/40 bg-primary/10 px-3 py-2.5">
@@ -300,19 +333,27 @@ export function MusicPlayer() {
 					variant="outline"
 					clip="none"
 					className="size-9 shrink-0 p-0"
+					onClick={() => setPlaying((p) => !p)}
+					aria-label={playing ? "Pause" : "Play"}
 				>
-					<Play className="size-4" />
+					{playing ? (
+						<Pause className="size-4" />
+					) : (
+						<Play className="size-4" />
+					)}
 				</Button>
 				<div className="min-w-0 flex-1">
 					<p className="truncate text-sm font-medium text-foreground">
 						Now playing
 					</p>
 					<p className="truncate font-mono text-[0.625rem] uppercase tracking-widest text-muted-foreground">
-						Cannibal Queen · Mannim
+						{title} · {album}
 					</p>
 				</div>
 				<Headphones className="size-4 shrink-0 text-primary" />
 			</div>
+
+			{/* volume/progress — animated while playing */}
 			<ChartContainer
 				config={{ lvl: { label: "sig", color: "var(--color-chart-3)" } }}
 				className="mt-2 h-14 w-full"
@@ -322,7 +363,11 @@ export function MusicPlayer() {
 						b: String(i + 1),
 						lvl: Math.round(
 							28 +
-								40 * Math.abs(Math.sin(((i + 1) * Math.PI) / 12)) +
+								40 *
+									Math.abs(
+										Math.sin(((i + 1) * Math.PI) / 12) +
+											(playing ? progress / 20 : 0),
+									) +
 								14 * Math.sin(((i + 1) * 3.7) / 2),
 						),
 					}))}
@@ -339,44 +384,56 @@ export function MusicPlayer() {
 					/>
 				</BarChart>
 			</ChartContainer>
+
+			{/* stations */}
 			<div className="mt-3 flex flex-col gap-1.5">
-				{[
-					["Pacifica FM", "103.1"],
-					["Morro Rock", "Rock 91.9"],
-					["Night City Radio", "92.0"],
-				].map(([station, freq]) => (
+				{stations.map(([name, freq], i) => (
 					<button
-						key={station}
+						key={name}
 						type="button"
-						className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs text-muted-foreground transition-colors hover:bg-glass"
+						onClick={() => setStation(i)}
+						className={`flex items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs transition-colors ${
+							i === station
+								? "bg-primary/10 font-medium text-primary"
+								: "text-muted-foreground hover:bg-glass"
+						}`}
 					>
 						<Radio className="size-3.5 shrink-0" />
-						<span className="truncate">{station}</span>
+						<span className="truncate">{name}</span>
 						<span className="ml-auto font-mono text-[0.5625rem] text-muted-foreground/60">
 							{freq}
 						</span>
 					</button>
 				))}
 			</div>
+
+			{/* queue */}
 			<div className="mt-2 border-t border-glass-border pt-2">
 				<p className="mb-1 font-mono text-[0.5625rem] uppercase tracking-widest text-muted-foreground">
 					queue
 				</p>
 				<div className="flex flex-col gap-1.5">
-					{tracks.map(([title, album], i) => (
-						<div
-							key={title}
-							className={`flex items-center gap-2 rounded-sm px-2 py-1.5 text-xs ${i === 0 ? "bg-primary/10 font-medium text-primary" : "text-muted-foreground"}`}
+					{tracks.map(([t, a], i) => (
+						<button
+							key={t}
+							type="button"
+							onClick={() => selectTrack(i)}
+							className={`flex items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs transition-colors ${
+								i === trackIdx
+									? "bg-primary/10 font-medium text-primary"
+									: "text-muted-foreground hover:bg-glass"
+							}`}
 						>
 							<Radio className="size-3.5 shrink-0" />
-							<span className="truncate">{title}</span>
+							<span className="truncate">{t}</span>
 							<span className="ml-auto font-mono text-[0.5625rem] text-muted-foreground/60">
-								{album}
+								{a}
 							</span>
-						</div>
+						</button>
 					))}
 				</div>
 			</div>
 		</ShowcaseCard>
 	);
 }
+
