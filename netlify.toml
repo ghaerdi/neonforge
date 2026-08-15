@@ -1,0 +1,4 @@
+[build]
+  base = "nextjs"
+  command = "bun install --frozen-lockfile && bun run build"
+  publish = ".next"
