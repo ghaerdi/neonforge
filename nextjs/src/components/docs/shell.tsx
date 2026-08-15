@@ -88,10 +88,14 @@ export function Shell({
 				<header className="sticky top-0 z-20 border-b border-glass-border bg-background/80 backdrop-blur-xl">
 					<div className="flex h-14 items-center gap-2 px-4 sm:px-6">
 						<Link href="/" className="group flex items-center gap-2.5">
-							<span className="relative grid size-9 place-items-center rounded-sm border border-primary/60 bg-primary/10 shadow-[var(--nf-glow-primary)] transition-colors group-hover:border-primary"
+							<span className="relative grid size-9 place-items-center bg-primary/10 shadow-[var(--nf-glow-primary)] transition-colors group-hover:bg-primary/15"
 								style={{
 									clipPath:
 										"polygon(0 0.4rem, 0.4rem 0, 100% 0, 100% calc(100% - 0.4rem), calc(100% - 0.4rem) 100%, 0 100%)",
+									// inset outline (not clipped by clip-path) so the edge
+									// follows the chamfer without getting cut off.
+									outline: "1px solid color-mix(in srgb, var(--primary) 60%, transparent)",
+									outlineOffset: "-1px",
 								}}
 							>
 								<Zap className="size-[1.15rem] text-primary" strokeWidth={2.5} fill="currentColor" fillOpacity={0.15} />
