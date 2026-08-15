@@ -4,14 +4,13 @@ import Link from "next/link";
 import { DemoViewer } from "@/components/demos/DemoViewer";
 import { CopyButton } from "@/components/CopyButton";
 import { CATALOG_ORDER, COMPONENTS, groupOf, INSTALL_CMD } from "../../../lib/catalog";
+import { match, Result } from "@ghaerdi/rustify";
 
-function loadSource(name: string): string | null {
-  try {
-    const file = path.join(process.cwd(), "../react/ui", `${name}.tsx`);
-    return fs.readFileSync(file, "utf8");
-  } catch {
-    return null;
-  }
+function loadSource(name: string): Result<string, { kind: "unavailable" }> {
+  return Result.from(
+    () => fs.readFileSync(path.join(process.cwd(), "../react/ui", `${name}.tsx`), "utf8"),
+    () => ({ kind: "unavailable" }),
+  );
 }
 
 export function generateStaticParams() {
@@ -34,6 +33,15 @@ export default async function ComponentDetailPage({
   const prev = prevName ? COMPONENTS.find((c) => c.name === prevName) : undefined;
   const next = nextName ? COMPONENTS.find((c) => c.name === nextName) : undefined;
   const source = loadSource(item.name);
+  const sourceLabel = match(source)
+    .with(Result.ok, (s) => `${s.split("\n").length} lines`)
+    .with(Result.err, () => "unavailable")
+    .exhaustive();
+  const sourceText = match(source)
+    .with(Result.ok, (s) => s)
+    .with(Result.err, () => `// no source found for ${item.name}`)
+    .exhaustive();
+  const sourceAvailable = source.isOk();
   const brPoly =
     "polygon(0 0, 100% 0, 100% calc(100% - 0.5rem), calc(100% - 0.5rem) 100%, 0 100%)";
 
@@ -96,13 +104,13 @@ export default async function ComponentDetailPage({
               </span>
               <span className="flex items-center gap-2">
                 <span className="font-mono text-[0.625rem] uppercase tracking-widest text-muted-foreground/60">
-                  {source ? `${source.split("\n").length} lines` : "unavailable"}
+                  {sourceLabel}
                 </span>
-                {source ? <CopyButton value={source} label="copy" /> : null}
+                {sourceAvailable ? <CopyButton value={sourceText} label="copy" /> : null}
               </span>
             </div>
             <pre className="max-h-96 overflow-auto p-4 font-mono text-[0.6875rem] leading-relaxed text-foreground/90">
-              {source ?? `// no source found for ${item.name}`}
+              {sourceText}
             </pre>
           </div>
         </section>

@@ -11,7 +11,7 @@
  * choices).
  */
 import { Err, Ok, type Result } from "@ghaerdi/rustify";
-import { AXES, DEFAULTS, OPTIONS, type PresetSelection } from "./presets";
+import { AXES, DEFAULTS, OPTIONS, resolvedSelection, type PresetSelection } from "./presets";
 
 /** Why a preset code failed to parse — explicit, discriminated failure. */
 export type PresetParseError =
@@ -36,11 +36,11 @@ function digit(char: string): number {
 
 /** Pack axis value indexes into a single BigInt via mixed radix (AXES order). */
 function pack(sel: PresetSelection): bigint {
+	const r = resolvedSelection(sel);
 	let n = 0n;
 	for (const a of AXES) {
 		const opts = OPTIONS[a.id];
-		const v = sel[a.id] ?? DEFAULTS[a.id];
-		const idx = opts.findIndex((o) => o.value === v);
+		const idx = opts.findIndex((o) => o.value === r[a.id]);
 		n = n * BigInt(opts.length) + BigInt(idx < 0 ? 0 : idx);
 	}
 	return n;

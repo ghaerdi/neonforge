@@ -10,7 +10,7 @@ describe("catalog.groupOf", () => {
 		expect(groupOf("chart")).toBe("Charts");
 	});
 
-	it("falls back to Core for an unknown component (Option.none)", () => {
+	it("falls back to Core for an unknown component", () => {
 		expect(groupOf("::not-a-component::")).toBe("Core");
 		expect(groupOf("")).toBe("Core");
 	});

@@ -349,8 +349,7 @@ export function DeliveryWidget() {
 				</p>
 			</div>
 			<div className="mt-3 flex flex-col gap-2">
-				{(["picked up", "in transit", "delivery"] as const).map((step, i) => {
-					const idx = ["picked up", "in transit", "delivery"].indexOf(step);
+				{(["picked up", "in transit", "delivery"] as const).map((step, idx) => {
 					const state =
 						done || pct >= 100
 							? "done"

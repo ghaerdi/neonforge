@@ -92,7 +92,7 @@ export interface Option {
 }
 
 /** Shared font choices (body + heading each pick one of these). */
-const FONT_OPTIONS: Option[] = [
+const FONT_OPTIONS = [
   {
     value: "chakra",
     label: "Chakra Petch",
@@ -129,9 +129,9 @@ const FONT_OPTIONS: Option[] = [
     note: "editorial",
     fontStack: "'Instrument Serif', serif",
   },
-];
+] as const satisfies readonly Option[];
 
-export const OPTIONS: Record<Axis, Option[]> = {
+export const OPTIONS = {
   style: [
     {
       value: "streetkid",
@@ -231,9 +231,19 @@ export const OPTIONS: Record<Axis, Option[]> = {
       shape: "round",
     },
   ],
-};
+} as const satisfies Record<Axis, readonly Option[]>;
 
-export const DEFAULTS: Record<Axis, string> = {
+/** Value union of the options a single axis can hold — derived, not duplicated. */
+export type OptionValue<K extends Axis> = (typeof OPTIONS)[K][number]["value"];
+
+/**
+ * A selection with every axis filled in (defaults where absent).
+ * Keyed per-axis so lookups into the *_VALUES tables are total — a missing
+ * map entry is a compile error, never a runtime `undefined!`.
+ */
+export type ResolvedSelection = { [K in Axis]: OptionValue<K> };
+
+export const DEFAULTS: ResolvedSelection = {
   style: "streetkid",
   semantic: "ember",
   base: "void",
@@ -244,15 +254,9 @@ export const DEFAULTS: Record<Axis, string> = {
   shape: "rect",
 };
 
-export const attrOf = (axis: Axis) => AXES.find((a) => a.id === axis)!.attr;
-
-/** camelCase → kebab-case: `nfFontBody` → `nf-font-body`. */
-function kebab(attr: string): string {
-  return attr.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
-}
 
 /** Resolved oklch triplets per preset (L C H) — mirrors theme.css. */
-const BASE_VALUES: Record<string, { l: number; c: number; h: number }> = {
+const BASE_VALUES: Record<OptionValue<"base">, { l: number; c: number; h: number }> = {
   carbon: { l: 0.11, c: 0.012, h: 250 },
   void: { l: 0.12, c: 0.02, h: 262 },
   steel: { l: 0.115, c: 0.012, h: 230 },
@@ -262,7 +266,7 @@ const BASE_VALUES: Record<string, { l: number; c: number; h: number }> = {
 };
 
 const ACCENT_VALUES: Record<
-  string,
+  OptionValue<"accent">,
   { l: number; c: number; h: number; fg: number }
 > = {
   hazard: { l: 0.93, c: 0.19, h: 110, fg: 0.16 },
@@ -275,7 +279,7 @@ const ACCENT_VALUES: Record<
   signal: { l: 0.95, c: 0.005, h: 250, fg: 0.16 },
 };
 
-const CHART_VALUES: Record<string, [number, number, number][]> = {
+const CHART_VALUES: Record<OptionValue<"chart">, [number, number, number][]> = {
   hazard: [
     [0.93, 0.19, 110],
     [0.87, 0.14, 230],
@@ -335,7 +339,8 @@ const CHART_VALUES: Record<string, [number, number, number][]> = {
 };
 
 /** Resolved CSS font-family per choice (body = everything). */
-const FONT_BODY_VALUES: Record<string, string> = {
+/** Resolved CSS font-family per choice — shared by body AND heading. */
+const FONT_BODY_VALUES: Record<OptionValue<"fontBody">, string> = {
   inter: '"Inter", ui-sans-serif, system-ui, sans-serif',
   rajdhani: '"Rajdhani", ui-sans-serif, system-ui, sans-serif',
   chakra: '"Chakra Petch", ui-sans-serif, system-ui, sans-serif',
@@ -344,12 +349,8 @@ const FONT_BODY_VALUES: Record<string, string> = {
   "instrument-serif": '"Instrument Serif", ui-serif, Georgia, serif',
 };
 
-/** Resolved CSS font-family per choice (heading only). */
-const FONT_HEADING_VALUES: Record<string, string> = {
-  ...FONT_BODY_VALUES,
-};
 
-const SHAPE_VALUES: Record<string, string> = {
+const SHAPE_VALUES: Record<OptionValue<"shape">, string> = {
   rect:
     "\t--nf-corner-tr: 0;\n\t--nf-corner-bl: 0;\n\t--nf-radius-tr: 0;\n\t--nf-radius-bl: 0;",
   round:
@@ -485,10 +486,11 @@ export const STYLE_BUNDLES: Record<StyleMode, StyleBundle> = {
 export type PresetSelection = Partial<Record<Axis, string>>;
 
 /** Resolve a full selection with the current default (streetkid) filling gaps. */
-export function resolvedSelection(sel: PresetSelection): Record<Axis, string> {
-  const out = {} as Record<Axis, string>;
-  for (const a of AXES) out[a.id] = sel[a.id] ?? DEFAULTS[a.id];
-  return out;
+export function resolvedSelection(sel: PresetSelection): ResolvedSelection {
+  // Single default-fill boundary: everything downstream reads a total selection.
+  return Object.fromEntries(
+    AXES.map((a) => [a.id, sel[a.id] ?? DEFAULTS[a.id]]),
+  ) as ResolvedSelection;
 }
 
 /**
@@ -498,13 +500,9 @@ export function resolvedSelection(sel: PresetSelection): Record<Axis, string> {
  */
 export function applyTheme(sel: PresetSelection) {
   const el = document.documentElement;
-  for (const a of AXES) {
-    el.dataset[a.attr] = sel[a.id] ?? DEFAULTS[a.id];
-  }
+  const resolved = resolvedSelection(sel);
+  for (const a of AXES) el.dataset[a.attr] = resolved[a.id];
 }
-
-
-
 
 /** Full flat selection a genre implies (bundle axis defaults) — drops style overrides. */
 export function bundledSelection(mode: StyleMode): PresetSelection {
@@ -519,23 +517,25 @@ export function bundledSelection(mode: StyleMode): PresetSelection {
 
 /** The non-tweakable token CSS block for the resolved genre (always emitted for
  *  self-contained exports). */
-export function styleBlock(sel: PresetSelection): string {
-  const mode = (sel.style ?? DEFAULTS.style) as StyleMode;
-  return STYLE_BUNDLES[mode].css;
+function styleBlock(sel: PresetSelection): string {
+  return STYLE_BUNDLES[resolvedSelection(sel).style].css;
 }
 
 /** Copy-pasteable CSS block for a selection (self-contained, no theme.css needed). */
 export function selectionToCss(sel: PresetSelection): string {
-  const style = styleBlock(sel);
-  const base = BASE_VALUES[sel.base ?? DEFAULTS.base]!;
-  const accent = ACCENT_VALUES[sel.accent ?? DEFAULTS.accent]!;
-  const chart = CHART_VALUES[sel.chart ?? DEFAULTS.chart]!;
-  const body = FONT_BODY_VALUES[sel.fontBody ?? DEFAULTS.fontBody]!;
-  const heading = FONT_HEADING_VALUES[sel.fontHeading ?? DEFAULTS.fontHeading]!;
-  const shape = SHAPE_VALUES[sel.shape ?? DEFAULTS.shape]!;
+  const r = resolvedSelection(sel);
+  const base = BASE_VALUES[r.base];
+  const accent = ACCENT_VALUES[r.accent];
+  const chart = CHART_VALUES[r.chart];
+  const body = FONT_BODY_VALUES[r.fontBody];
+  const heading = FONT_BODY_VALUES[r.fontHeading];
+  const shape = SHAPE_VALUES[r.shape];
   return `:root {
 \t/* genre · non-tweakable tokens */
-${style ? "\t--nf-genre: " + (sel.style ?? DEFAULTS.style) + ";\n" + style + "\n\n" : ""}\t/* base surface — carbon */
+\t--nf-genre: ${r.style};
+${styleBlock(sel)}
+
+\t/* base surface — carbon */
 \t--nf-hue: ${base.h};
 \t--nf-bg-l: ${base.l};
 \t--nf-bg-c: ${base.c};
@@ -560,14 +560,4 @@ ${style ? "\t--nf-genre: " + (sel.style ?? DEFAULTS.style) + ";\n" + style + "\n
 \t/* corner shape */
 ${shape}
 }`;
-}
-/** <html data-nf-...> attrs line for a selection. */
-export function selectionToAttrs(sel: PresetSelection): string {
-  const parts: string[] = [];
-  for (const a of AXES) {
-    const v = sel[a.id] ?? DEFAULTS[a.id];
-    if (v === DEFAULTS[a.id]) continue;
-    parts.push(`data-${kebab(a.attr)}="${v}"`);
-  }
-  return `<html${parts.length ? " " + parts.join(" ") : ""}>`;
 }

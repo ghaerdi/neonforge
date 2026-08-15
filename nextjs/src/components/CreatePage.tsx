@@ -15,6 +15,7 @@ import {
 	AXES,
 	bundledSelection,
 	OPTIONS,
+	resolvedSelection,
 	STYLE_BUNDLES,
 	DEFAULTS,
 	type Axis,
@@ -130,10 +131,10 @@ export function CreatePage() {
 	/** Shuffle unlocked axes (locked axes keep their value). */
 	const shuffle = () => {
 		const next: PresetSelection = {};
+		const bundle = STYLE_BUNDLES[resolvedSelection(selection).style];
 		for (const a of AXES) {
 			if (lockedAxes[a.id]) {
 				// keep current value — fall back to the genre bundle or axis default
-				const bundle = STYLE_BUNDLES[(selection.style ?? "streetkid") as StyleMode];
 				next[a.id] =
 					selection[a.id] ??
 					bundle.axis[a.id as Exclude<Axis, "style">] ??

@@ -17,19 +17,8 @@ import { selectionToCss, type PresetSelection } from "./presets";
  * @layer base). Replacing the theme file with just this block strips the
  * utility classes and leaves components unstyled.
  */
-export function downloadThemeCss(sel: PresetSelection): string {
-	const css = selectionToCss(sel);
-	const content = `/* neonforge preset token override — generated from the Create page. */
-/* NOT a standalone theme: it only retunes custom properties. */
-/*
- * To apply it:
- *   keep your full neonforge theme.css (the file with @theme inline,
- *   @utility, @layer base rules) and APPEND this block at the end so the
- *   overrides win. Do NOT replace theme.css with just this block — the
- *   glass-panel / neon-glow / text-glow / grid-bg utilities would vanish.
- */
-${css}
-`;
+/** Trigger a browser download of the CSS file. Failures are ignorable by design. */
+function saveCssFile(content: string): void {
 	try {
 		const blob = new Blob([content], { type: "text/css" });
 		const url = URL.createObjectURL(blob);
@@ -43,5 +32,21 @@ ${css}
 	} catch {
 		/* ignore download failures */
 	}
+}
+
+export function downloadThemeCss(sel: PresetSelection): string {
+	const css = selectionToCss(sel);
+	const content = `/* neonforge preset token override — generated from the Create page. */
+/* NOT a standalone theme: it only retunes custom properties. */
+/*
+ * To apply it:
+ *   keep your full neonforge theme.css (the file with @theme inline,
+ *   @utility, @layer base rules) and APPEND this block at the end so the
+ *   overrides win. Do NOT replace theme.css with just this block — the
+ *   glass-panel / neon-glow / text-glow / grid-bg utilities would vanish.
+ */
+${css}
+`;
+	saveCssFile(content);
 	return content;
 }

@@ -4,7 +4,8 @@ import * as React from "react";
 import { ArrowRight, Download, Terminal } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, type ButtonProps } from "@/components/ui/button";
+import type { Clip } from "@/lib/utils";
 import {
 	Card,
 	CardContent,
@@ -70,41 +71,41 @@ export function BadgeDemo() {
 }
 
 export function ButtonDemo() {
-	const [size, setS] = React.useState("default");
+	const [size, setS] = React.useState<ButtonProps["size"]>("default");
 	return (
 		<DemoFrame
 			demo={
 				<div className="flex flex-wrap items-center justify-center gap-2">
-					<Button size={size as any}>Default</Button>
-					<Button size={size as any} variant="outline" clip="none">
+					<Button size={size}>Default</Button>
+					<Button size={size} variant="outline" clip="none">
 						Outline
 					</Button>
-					<Button size={size as any} variant="secondary">
+					<Button size={size} variant="secondary">
 						Secondary
 					</Button>
-					<Button size={size as any} variant="ghost">
+					<Button size={size} variant="ghost">
 						Ghost
 					</Button>
-					<Button size={size as any} variant="destructive">
+					<Button size={size} variant="destructive">
 						Destructive
 					</Button>
-					<Button size={size as any} variant="success">
+					<Button size={size} variant="success">
 						Success
 					</Button>
-					<Button size={size as any} variant="warning">
+					<Button size={size} variant="warning">
 						Warning
 					</Button>
-					<Button size={size as any} variant="info">
+					<Button size={size} variant="info">
 						Info
 					</Button>
-					<Button size={size as any} variant="link">
+					<Button size={size} variant="link">
 						Link
 					</Button>
 				</div>
 			}
 			controls={
 				<CtrlRow label="size">
-					{["sm", "default", "lg"].map((x) => (
+					{(["sm", "default", "lg"] as const).map((x) => (
 						<CtrlChip key={x} active={size === x} onClick={() => setS(x)}>
 							{x}
 						</CtrlChip>
@@ -116,7 +117,7 @@ export function ButtonDemo() {
 }
 
 export function CardDemo() {
-	const [clip, setClip] = React.useState<"br" | "none">("br");
+	const [clip, setClip] = React.useState<Clip>("br");
 	return (
 		<DemoFrame
 			demo={
@@ -147,7 +148,7 @@ export function CardDemo() {
 						<CtrlChip
 							key={x}
 							active={clip === x}
-							onClick={() => setClip(x as any)}
+							onClick={() => setClip(x)}
 						>
 							{x}
 						</CtrlChip>
@@ -218,7 +219,7 @@ export function EmptyDemo() {
 }
 
 export function FrameDemo() {
-	const [clip, setClip] = React.useState<"br" | "none">("br");
+	const [clip, setClip] = React.useState<Clip>("br");
 	return (
 		<DemoFrame
 			demo={
@@ -245,7 +246,7 @@ export function FrameDemo() {
 						<CtrlChip
 							key={x}
 							active={clip === x}
-							onClick={() => setClip(x as any)}
+							onClick={() => setClip(x)}
 						>
 							{x}
 						</CtrlChip>

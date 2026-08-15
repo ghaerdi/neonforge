@@ -28,6 +28,7 @@ import {
 	type Axis,
 	DEFAULTS,
 	OPTIONS,
+	type Option,
 	type PresetSelection,
 	STYLE_BUNDLES,
 	selectionToCss,
@@ -35,6 +36,7 @@ import {
 } from "../../lib/presets";
 import { encodePreset } from "../../lib/preset-codec";
 import { downloadThemeCss } from "../../lib/theme-store";
+import { INSTALL_CMD } from "../../lib/catalog";
 
 
 function ShapeGlyph({ mode }: { mode: "rect" | "round" }) {
@@ -57,8 +59,6 @@ function ShapeGlyph({ mode }: { mode: "rect" | "round" }) {
 	);
 }
 
-const INSTALL_CMD = (name: string) =>
-	`npx shadcn@latest add ghaerdi/neonforge/${name}`;
 
 /** Guides the user on wiring up Neonforge components with the current preset:
  *  the install command, the shareable ?preset= code, and the generated CSS. */
@@ -279,7 +279,7 @@ export function CreateSidebar({
 				</section>
 
 				{AXES.filter((axis) => axis.id !== "style").map((axis) => {
-					const options = isStreetkid && axis.id === "shape"
+					const options: readonly Option[] = isStreetkid && axis.id === "shape"
 						? OPTIONS[axis.id].filter((o) => o.value !== "round")
 						: OPTIONS[axis.id];
 					const current = isStreetkid && axis.id === "shape" && selection[axis.id] === "round"

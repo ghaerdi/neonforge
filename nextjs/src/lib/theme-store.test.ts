@@ -26,10 +26,11 @@ Object.defineProperty(globalThis, "URL", {
 });
 
 describe("theme-store", () => {
-	it("downloadThemeCss emits a standalone @import + :root block", () => {
+	it("downloadThemeCss emits an override-only :root token block", () => {
 		const css = downloadThemeCss(bundledSelection("nomad"));
-		expect(css).toContain('@import "tailwindcss"');
 		expect(css).toContain(":root {");
 		expect(css).toContain("--nf-hue:");
+		// Override-only contract: retunes tokens, never claims standalone status.
+		expect(css).toContain("NOT a standalone theme");
 	});
 });
