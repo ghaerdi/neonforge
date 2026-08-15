@@ -1,7 +1,9 @@
 @import "tailwindcss";
+@import "sonner/dist/styles.css";
 @source "../../../react/ui";
 @source "../../../lib";
 @source "../../../styles";
 @source "./";
+
 
 @import "../../../styles/theme.css";

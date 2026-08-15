@@ -118,10 +118,12 @@ export function CreatePage() {
 			.exhaustive();
 	};
 
-	/** Copy the current theme's encrypted code to the clipboard. */
+	/** Copy a shareable link carrying this preset's code (?preset=…). */
 	const copyCode = () => {
+		const url = new URL(window.location.href);
+		url.searchParams.set("preset", encodePreset(selection));
 		navigator.clipboard
-			.writeText(encodePreset(selection))
+			.writeText(url.toString())
 			.catch(() => undefined);
 	};
 

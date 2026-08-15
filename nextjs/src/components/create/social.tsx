@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import { useMusicStore } from "../../lib/music-store";
+
 import {
 	Headphones,
 	MessageCircle,
@@ -119,6 +121,7 @@ export function ProfileWidget() {
 
 /** Discord-style profile card — banner, overlapping avatar, status, activity. */
 export function DiscordProfile() {
+	const trackTitle = useMusicStore((s) => s.trackTitle);
 	return (
 		<ShowcaseCard title="Network profile" sub="shared server · after-life">
 			{/* banner */}
@@ -178,7 +181,7 @@ export function DiscordProfile() {
 					<span className="text-primary">Gig wages negotiable.</span>
 				</p>
 				<p className="mt-1.5 flex items-center gap-1.5 text-xs text-primary">
-					<Headphones className="size-3.5" /> Listening to CRITICAL ROLEBOT
+					<Headphones className="size-3.5" /> Listening to {trackTitle}
 				</p>
 			</div>
 
@@ -299,32 +302,42 @@ export function MusicPlayer() {
 		["Night City Radio", "92.0"],
 	];
 
+	const setNowPlaying = useMusicStore((s) => s.setNowPlaying);
 	const [playing, setPlaying] = React.useState(false);
 	const [trackIdx, setTrackIdx] = React.useState(0);
 	const [station, setStation] = React.useState(0);
-	const [progress, setProgress] = React.useState(0);
+	const [bars, setBars] = React.useState<number[]>(() =>
+		Array.from({ length: 50 }, () => 20 + Math.round(Math.random() * 40)),
+	);
 
-	// Simulate playback: advance a 0–100 progress bar while playing.
+	// Simulate playback: re-randomise the equalizer bars fast & independently.
 	React.useEffect(() => {
 		if (!playing) return;
 		const id = window.setInterval(() => {
-			setProgress((p) => {
-				if (p >= 100) return 0; // loop the track
-				return p + 2;
-			});
-		}, 600);
+			setBars((prev) =>
+				prev.map((v) => {
+					const drift = Math.round((Math.random() - 0.5) * 28);
+					return Math.max(8, Math.min(96, v + drift));
+				}),
+			);
+		}, 100);
 		return () => window.clearInterval(id);
 	}, [playing]);
 
-	// Selecting a track from the queue resets progress and starts playing.
-	const selectTrack = (i: number) => {
-		setTrackIdx(i);
-		setProgress(0);
-		setPlaying(true);
-	};
-
 	const [title, album] = tracks[trackIdx];
 
+	// Selecting a track from the queue resets and starts playing.
+	const selectTrack = (i: number) => {
+		setTrackIdx(i);
+		setBars(Array.from({ length: 50 }, () => 20 + Math.round(Math.random() * 40)));
+		setPlaying(true);
+		setNowPlaying(tracks[i][0], tracks[i][1], stations[station][0]);
+	};
+
+	const selectStation = (i: number) => {
+		setStation(i);
+		setNowPlaying(title, album, stations[i][0]);
+	};
 	return (
 		<ShowcaseCard title="Radio / music" sub="morro rock · pirate band">
 			<div className="flex items-center gap-3 rounded-md border border-primary/40 bg-primary/10 px-3 py-2.5">
@@ -347,7 +360,7 @@ export function MusicPlayer() {
 						Now playing
 					</p>
 					<p className="truncate font-mono text-[0.625rem] uppercase tracking-widest text-muted-foreground">
-						{title} · {album}
+						{title}
 					</p>
 				</div>
 				<Headphones className="size-4 shrink-0 text-primary" />
@@ -359,17 +372,9 @@ export function MusicPlayer() {
 				className="mt-2 h-14 w-full"
 			>
 				<BarChart
-					data={Array.from({ length: 50 }, (_, i) => ({
+					data={bars.map((lvl, i) => ({
 						b: String(i + 1),
-						lvl: Math.round(
-							28 +
-								40 *
-									Math.abs(
-										Math.sin(((i + 1) * Math.PI) / 12) +
-											(playing ? progress / 20 : 0),
-									) +
-								14 * Math.sin(((i + 1) * 3.7) / 2),
-						),
+						lvl,
 					}))}
 					margin={{ left: -16, right: 8, top: 4, bottom: 0 }}
 				>
@@ -391,7 +396,7 @@ export function MusicPlayer() {
 					<button
 						key={name}
 						type="button"
-						onClick={() => setStation(i)}
+						onClick={() => selectStation(i)}
 						className={`flex items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs transition-colors ${
 							i === station
 								? "bg-primary/10 font-medium text-primary"

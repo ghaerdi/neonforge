@@ -30,17 +30,39 @@ import { Meter, ShowcaseCard, TXNS } from "./card-ui";
 
 export function BankWidget() {
 	const [balance, setBalance] = React.useState(1284500);
+	const [recent, setRecent] = React.useState<(string | number)[][]>(() =>
+		TXNS.map((r, i) => [i, ...r]),
+	);
+	const [split, setSplit] = React.useState([
+		{ name: "core", value: 40, fill: "var(--color-chart-1)" },
+		{ name: "ops", value: 28, fill: "var(--color-chart-2)" },
+		{ name: "r&d", value: 20, fill: "var(--color-chart-3)" },
+		{ name: "cont", value: 12, fill: "var(--color-chart-4)" },
+	]);
+	const [txnSeq, setTxnSeq] = React.useState(TXNS.length);
+
 	// quick +/- amounts in ¥
 	const move = (delta: number, kind: "in" | "out") => {
-		setBalance((b) => {
-			const next = Math.max(0, b + delta);
-			if (next !== b) {
-				toast[`${kind === "in" ? "success" : "info"}`](kind === "in" ? "Funds added" : "Withdrawal", {
-					description: `${kind === "in" ? "+" : "-"}¥${delta.toLocaleString()}`,
-				});
-				return next;
-			}
-			return b;
+		const amount = kind === "out" ? -delta : delta; // withdraw subtracts
+		setBalance((b) => Math.max(0, b + amount));
+		// side effects live outside the state updater.
+		const at = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+		const label = kind === "in" ? "Fund injection" : "ATM withdrawal";
+		const amtStr = `${kind === "in" ? "+" : "-"}¥${delta.toLocaleString()}`;
+		setRecent((prev) => [
+			[txnSeq, at, label, amtStr, "cleared"],
+			...prev,
+		].slice(0, 4));
+		setTxnSeq((s) => s + 1);
+		setSplit((sp) =>
+			sp.map((seg) =>
+				seg.name === "ops"
+					? { ...seg, value: Math.min(45, seg.value + (kind === "in" ? 1 : -1)) }
+					: seg,
+			),
+		);
+		toast[kind === "in" ? "success" : "info"](kind === "in" ? "Funds added" : "Withdrawal", {
+			description: amtStr,
 		});
 	};
 	const fmt = (n: number) => `¥${n.toLocaleString()}`;
@@ -65,12 +87,7 @@ export function BankWidget() {
 			>
 				<PieChart>
 					<Pie
-						data={[
-							{ name: "core", value: 40, fill: "var(--color-chart-1)" },
-							{ name: "ops", value: 28, fill: "var(--color-chart-2)" },
-							{ name: "r&d", value: 20, fill: "var(--color-chart-3)" },
-							{ name: "cont", value: 12, fill: "var(--color-chart-4)" },
-						]}
+						data={split}
 						dataKey="value"
 						nameKey="name"
 						innerRadius={40}
@@ -117,28 +134,28 @@ export function BankWidget() {
 				<p className="font-mono text-[0.5625rem] uppercase tracking-widest text-muted-foreground">
 					recent
 				</p>
-				{TXNS.map((r) => (
+				{recent.map((r) => (
 					<div
-						key={r[0]}
+						key={String(r[0])}
 						className="flex items-center justify-between rounded-md border border-glass-border bg-secondary/10 px-3 py-2"
 					>
 						<div className="min-w-0">
-							<p className="truncate text-xs text-foreground">{r[1]}</p>
+							<p className="truncate text-xs text-foreground">{r[2]}</p>
 							<p className="font-mono text-[0.5625rem] uppercase tracking-widest text-muted-foreground">
-								{r[0]}
+								{r[1]}
 							</p>
 						</div>
 						<div className="flex items-center gap-2">
 							<span
-								className={`font-mono text-xs ${r[2].startsWith("+") ? "text-success" : "text-foreground"}`}
-							>
-								{r[2]}
-							</span>
-							<Badge
-								variant={r[3] === "cleared" ? "success" : "warning"}
-								className="uppercase"
+								className={`font-mono text-xs ${String(r[3]).startsWith("+") ? "text-success" : "text-foreground"}`}
 							>
 								{r[3]}
+							</span>
+							<Badge
+								variant={r[4] === "cleared" ? "success" : "warning"}
+								className="uppercase"
+							>
+								{r[4]}
 							</Badge>
 						</div>
 					</div>

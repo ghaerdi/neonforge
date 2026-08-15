@@ -12,6 +12,7 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Spinner } from "@/components/ui/spinner";
 import {
 	Area,
 	AreaChart,
@@ -159,7 +160,7 @@ export function SystemTelemetry() {
 				)}
 			</div>
 			<Button size="sm" className="mt-3 w-full" onClick={runTrace} disabled={tracing}>
-				<Cpu className={`size-3.5 ${tracing ? "animate-spin" : ""}`} />{" "}
+				{tracing ? <Spinner className="size-3.5" /> : <Cpu className="size-3.5" />}{" "}
 				{tracing ? "Tracing ICE…" : "Trace ICE"}
 			</Button>
 		</ShowcaseCard>
@@ -227,7 +228,7 @@ export function HealthMonitor() {
 					preserveAspectRatio="none"
 				>
 					<path
-						d={line(VITALS, 60, 100)}
+						d={line([...VITALS, pulse], 60, 100)}
 						fill="none"
 						stroke="var(--color-chart-4)"
 						strokeWidth="1.5"
@@ -342,7 +343,7 @@ export function CyberpsychosisMonitor() {
 					<HeartPulse className="size-4" /> psycho-scan
 				</span>
 				<Badge variant="warning" className="uppercase">
-					67%
+					{chrome}%
 				</Badge>
 			</div>
 			<ChartContainer
@@ -360,6 +361,7 @@ export function CyberpsychosisMonitor() {
 						{ d: "thu", chrome: 66, stress: 49 },
 						{ d: "fri", chrome: 69, stress: 58 },
 						{ d: "sat", chrome: 71, stress: 63 },
+						{ d: "now", chrome, stress },
 					]}
 					margin={{ left: -16, right: 8, top: 4, bottom: 0 }}
 				>
@@ -464,6 +466,7 @@ export function DeviantMonitor() {
 						{ e: 4, dev: 44 },
 						{ e: 5, dev: 52 },
 						{ e: 6, dev: 61 },
+						{ e: 7, dev: deviancy },
 					]}
 					margin={{ left: -16, right: 8, top: 4, bottom: 0 }}
 				>
@@ -632,7 +635,7 @@ export function NetMonitor() {
 				onClick={runScan}
 				disabled={scan}
 			>
-				<ShieldAlert className={`size-3.5 ${scan ? "animate-spin" : ""}`} />
+				{scan ? <Spinner className="size-3.5" /> : <ShieldAlert className="size-3.5" />}
 				{scan ? "Scanning…" : "Quick net scan"}
 			</Button>
 			<div className="mt-2 flex items-center gap-2 rounded-md border border-glass-border bg-secondary/15 px-3 py-2">

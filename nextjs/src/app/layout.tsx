@@ -105,7 +105,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-svh bg-background text-foreground antialiased">
         {children}
-        <Toaster richColors position="bottom-right" />
+        <Toaster richColors position="bottom-right" duration={4200} visibleToasts={4} />
         <Script id="neonforge-theme" strategy="beforeInteractive">
           {THEME_PREPAINT}
         </Script>
