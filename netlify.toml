@@ -1,15 +1,15 @@
 [build]
-  # Build from the repo root so root node_modules gets populated — lib/ and
-  # react/ui live at the ROOT and resolve deps via ../node_modules, not
-  # nextjs/node_modules. Base-agnostic: Netlify may chdir into nextjs/ (when a
-  # UI "base directory" is set), so locate the repo root from wherever we
-  # start, install BOTH package sets (root → lib/react deps; nextjs → app deps
-  # + the next binary), then build. Verified cold: 71/71 static pages.
-  command = "root=$(cd \"${ROOT:-.}\" >/dev/null 2>&1; pwd -P); [ -f \"$root/nextjs/package.json\" ] || root=\"$root/..\"; (cd \"$root\" && bun install --frozen-lockfile) && (cd \"$root/nextjs\" && bun install --frozen-lockfile) && (cd \"$root/nextjs\" && bun run build)"
-  publish = "nextjs/.next"
+# Build from the repo root so root node_modules gets populated — lib/ and
+# react/ui live at the ROOT and resolve deps via ../node_modules, not
+# nextjs/node_modules. Base-agnostic: Netlify may chdir into nextjs/ (when a
+# UI "base directory" is set), so locate the repo root from wherever we
+# start, install BOTH package sets (root → lib/react deps; nextjs → app deps
+# + the next binary), then build. Verified cold: 71/71 static pages.
+command = "root=$(cd \"${ROOT:-.}\" >/dev/null 2>&1; pwd -P); [ -f \"$root/nextjs/package.json\" ] || root=\"$root/..\"; (cd \"$root\" && bun install --frozen-lockfile) && (cd \"$root/nextjs\" && bun install --frozen-lockfile) && (cd \"$root/nextjs\" && bun run build)"
+publish = "nextjs/.next"
 
 # Serve the Next.js app. Publishing raw .next only ships build artifacts, so
 # Netlify served its generic 404. The Next.js adapter (OpenNext) wires the
 # runtime — SSR/ISR/route handlers/server actions over the .next output.
 [[plugins]]
-  package = "@netlify/plugin-nextjs"
+package = "@netlify/plugin-nextjs"
