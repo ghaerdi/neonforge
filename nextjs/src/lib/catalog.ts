@@ -4,6 +4,7 @@ export interface CatalogItem {
 	name: string;
 	title: string;
 	description: string;
+	type?: string;
 	dependencies?: string[];
 	registryDependencies?: string[];
 }
@@ -11,6 +12,7 @@ export interface CatalogItem {
 const raw = (registryData as { items?: CatalogItem[] }).items ?? [];
 
 export const COMPONENTS: CatalogItem[] = raw
+	.filter((i) => i.type === "registry:ui")
 	.map((i) => ({
 		name: i.name,
 		title: i.title ?? i.name,

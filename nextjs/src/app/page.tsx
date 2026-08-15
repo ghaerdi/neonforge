@@ -85,7 +85,7 @@ export default function HomePage() {
                 <span className="shrink-0 font-mono text-primary">❯</span>
                 <code className="overflow-x-auto whitespace-nowrap font-mono text-xs text-foreground">
                   npx shadcn@latest add{" "}
-                  <span className="text-primary">ghaerdi/neonforge</span>
+                  <span className="text-primary">ghaerdi/neonforge/all</span>
                 </code>
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function HomePage() {
               </div>
               <div>
                 <p className="font-mono text-2xl font-bold tracking-tight text-foreground">
-                  60/60<span className="text-primary">.</span>
+                  {COMPONENTS.length}<span className="text-primary">.</span>
                 </p>
                 <p className="mt-1 font-mono text-[0.625rem] uppercase tracking-[0.25em] text-muted-foreground">
                   v4 catalog parity

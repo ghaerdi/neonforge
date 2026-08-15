@@ -76,12 +76,6 @@ function GetCodeDialog({
 		[selection],
 	);
 	const code = encodePreset(selection);
-	const shareUrl = React.useMemo(() => {
-		if (typeof window === "undefined") return "";
-		const url = new URL(window.location.href);
-		url.searchParams.set("preset", code);
-		return url.toString();
-	}, [code]);
 	const [copied, setCopied] = React.useState<string | null>(null);
 
 	const copy = async (label: string, text: string) => {
@@ -111,15 +105,7 @@ function GetCodeDialog({
 		},
 		{
 			step: "02",
-			title: "Apply this preset",
-			body:
-				"The theme rides on <html data-nf-*> attributes. Open any Neonforge page with this code, or apply the CSS block directly.",
-			code: shareUrl,
-			label: "preset",
-		},
-		{
-			step: "03",
-			title: "Or drop in the CSS",
+			title: "Copy and paste the CSS",
 			body:
 				"A self-contained token block — copy it into your own stylesheet and the components adopt the preset.",
 			code: css.trim(),
@@ -135,7 +121,7 @@ function GetCodeDialog({
 						Get components — {code.slice(0, 8)}…
 					</DialogTitle>
 					<DialogDescription>
-						Ship Neonforge primitives with this exact theme in three steps.
+						Ship Neonforge primitives with this exact theme in two steps.
 					</DialogDescription>
 				</DialogHeader>
 

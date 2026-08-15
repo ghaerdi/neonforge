@@ -66,10 +66,26 @@ export function CliPage() {
 		<div className="mx-auto max-w-3xl">
 			<DocsPageHeader code="DOCUMENTATION / CLI" title="Install with the CLI">
 				The shadcn CLI pulls each neonforge component into your project and
-				resolves its dependencies automatically. Install the theme first, then
-				any components you need.
+				resolves its dependencies automatically. Grab everything in one line, or
+				install the theme first then just the components you need.
 			</DocsPageHeader>
 			<div className="flex flex-col gap-12">
+				<Section num="00" title="Install everything">
+					<Card icon="▦" title="The whole suite, one command">
+						<div className="flex flex-col gap-3">
+							<Term
+								title="terminal · everything"
+								lines={["npx shadcn@latest add ghaerdi/neonforge/all"]}
+							/>
+							<p className="mt-3">
+								The <Code>all</Code> umbrella item installs every neonforge
+								component + the theme + <Code>lib-utils</Code>. Picking{" "}
+								<strong>Radix UI</strong> at the library prompt keeps everything
+								consistent (Neonforge is built on Radix).
+							</p>
+						</div>
+					</Card>
+				</Section>
 				<Section num="01" title="1. Install the theme">
 					<Card icon="◈" title="Theme first">
 						The theme ships as a registry item named <Code>neonforge</Code>. It
@@ -77,7 +93,7 @@ export function CliPage() {
 						<Code>lib-utils</Code> helper every component depends on:
 						<Term
 							title="terminal · theme"
-							lines={["npx shadcn@latest add ghaerdi/neonforge"]}
+							lines={["npx shadcn@latest add ghaerdi/neonforge/neonforge"]}
 						/>
 						<p className="mt-3">
 							Ensure <Code>@import "tailwindcss"</Code> is followed by the theme
@@ -111,17 +127,43 @@ export function CliPage() {
 				</Section>
 				<Section num="03" title="3. Apply your preset">
 					<Card icon="◈" title="Keep the look you configured">
-						The installed theme defaults to streetkid. To render components with
-						the exact preset you built on the{" "}
-						<Link
-							href="/create"
-							className="font-mono text-primary hover:underline"
-						>
-							Create page
-						</Link>
-						, copy the generated <Code>:root {"{ … }"}</Code> block from the
-						<Code>Get components</Code> dialog (or download the theme file) and
-						drop it over your project theme.
+						<p>
+							The installed theme defaults to streetkid. To render components with
+							the exact preset you built on the{" "}
+							<Link
+								href="/create"
+								className="font-mono text-primary hover:underline"
+							>
+								Create page
+							</Link>
+							, the <Code>Get components</Code> dialog (or <em>Download theme</em>)
+							gives you a <Code>:root {`{ … }`}</Code> block of tokens.
+						</p>
+						<p className="mt-3 text-amber-300/90">
+							That block is an <strong>override</strong> — it only retunes the
+							tokens. It must <strong>sit inside your full theme</strong>, not
+							replace it: keep the <Code>@theme inline</Code>,{" "}
+							<Code>@utility</Code> and <Code>@layer base</Code> rules from{" "}
+							<Code>styles/theme.css</Code>, and <strong>append</strong> the
+							block at the end of it so the overrides win.
+						</p>
+						<Term
+							title="theme.css · preset override appended"
+							lines={[
+								"/* … the full neonforge theme stays above: @theme inline, @utility, @layer base … */",
+								"",
+								"/* your preset from the Create page — appended last so it wins */",
+								":root {",
+								"  /* genre + base + accent + chart + font + shape tokens */",
+								"}",
+							]}
+						/>
+						<p className="mt-3">
+							If you replace the whole file with only the <Code>:root</Code>{" "}
+							block, the utility classes (<Code>glass-panel</Code>,{" "}
+							<Code>neon-glow</Code>, <Code>text-glow</Code>) and the theme→class
+							shorthand vanish and components render unstyled.
+						</p>
 					</Card>
 				</Section>
 			</div>
@@ -155,10 +197,14 @@ export function ManualPage() {
 							]}
 						/>
 						<p className="mt-3">
-							To start from your configured preset instead of the default, paste
-							the <Code>:root {"{ … }"}</Code> block from the Create page&apos;s{" "}
-							<Code>Get components</Code> dialog over the theme file —
-							components will render with exactly that look.
+							To start from your configured preset instead of the default,{" "}
+							<strong>append</strong> the <Code>:root {"{ … }"}</Code> block from
+							the Create page&apos;s <Code>Get components</Code> dialog to{" "}
+							<em>the end of</em> <Code>theme.css</Code>. It&apos;s a token{" "}
+							<strong>override</strong> — it layers on top of the file&apos;s{" "}
+							<Code>@theme inline</Code> / <Code>@utility</Code> /{" "}
+							<Code>@layer base</Code> rules, so keep those intact. Don&apos;t
+							replace the file with just the block, or components render unstyled.
 						</p>
 					</Card>
 				</Section>

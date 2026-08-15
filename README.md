@@ -25,19 +25,25 @@ npx shadcn@latest init
 ### CLI install
 
 ```bash
-# 1. theme (design tokens + utilities) — installs styles/theme.css + lib-utils
-npx shadcn@latest add ghaerdi/neonforge/neonforge
+# 1. everything — all components + theme + utils (one command)
+npx shadcn@latest add ghaerdi/neonforge/all
 
-# 2. components (deps resolved automatically; the theme is pulled in too)
-npx shadcn@latest add ghaerdi/neonforge/button
-npx shadcn@latest add ghaerdi/neonforge/card ghaerdi/neonforge/dialog
-npx shadcn@latest add ghaerdi/neonforge/tabs
+# 2. or install selectively
+npx shadcn@latest add ghaerdi/neonforge/neonforge   # theme only
+npx shadcn@latest add ghaerdi/neonforge/button      # one component
+npx shadcn@latest add ghaerdi/neonforge/card ghaerdi/neonforge/dialog ghaerdi/neonforge/tabs
 ```
 
-> The bare `npx shadcn@latest add ghaerdi/neonforge` opens the whole registry
-> collection (every component + the theme) for interactive selection. To install
-> only the theme, use the explicit `/neonforge` item above. Installing any
-> component also installs the theme+utils transitively via `registryDependencies`.
+> The first install prompts to **select a component library** — choose **Radix UI**
+> (Neonforge is built on Radix, so installed components match the registry
+> exactly). `ghaerdi/neonforge/all` installs every component; the theme and
+> `lib-utils` are pulled in transitively via `registryDependencies` for whichever
+> components you add.
+>
+> > The bare `npx shadcn@latest add ghaerdi/neonforge` (no item) is **not** a valid
+> > form in current shadcn CLI — it treats `ghaerdi/neonforge` as an item on the
+> > default ui.shadcn.com registry and 404s. Always include an item:
+> > `.../neonforge/all`, `.../neonforge/button`, etc.
 
 Ensure `@import "tailwindcss"` is followed by the theme import in your global
 CSS.
