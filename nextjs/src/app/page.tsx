@@ -57,23 +57,23 @@ export default function HomePage() {
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
-                href="/components"
+                href="/create"
                 className="group inline-flex items-center gap-2 bg-primary px-8 py-3 text-base text-primary-foreground"
                 style={{
                   clipPath:
                     "polygon(0 0.65rem, 0.65rem 0, 100% 0, 100% calc(100% - 0.65rem), calc(100% - 0.65rem) 100%, 0 100%)",
                 }}
               >
-                Browse components
+                ◈ Create a theme
                 <span className="transition-transform group-hover:translate-x-0.5">
                   →
                 </span>
               </Link>
               <Link
-                href="/create"
+                href="/components"
                 className="inline-flex items-center gap-2 border border-glass-border bg-glass px-8 py-3 text-base text-foreground hover:bg-glass-hover hover:border-primary/50 hover:text-primary"
               >
-                ◈ Create a theme
+                Browse components
               </Link>
             </div>
 

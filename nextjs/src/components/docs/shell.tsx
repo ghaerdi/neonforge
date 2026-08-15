@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 
+import { Github, Zap } from "lucide-react";
+
 import { ThemeToggle } from "./ThemeToggle";
 const PAGES = [
 	{ href: "/", label: "Home" },
@@ -85,11 +87,14 @@ export function Shell({
 			<div className={sidebar ? "lg:pl-72" : ""}>
 				<header className="sticky top-0 z-20 border-b border-glass-border bg-background/80 backdrop-blur-xl">
 					<div className="flex h-14 items-center gap-2 px-4 sm:px-6">
-						<Link href="/" className="flex items-center gap-2.5">
-							<span className="grid size-8 place-items-center rounded-sm border border-primary/50 bg-primary/10 shadow-[var(--nf-glow-primary)]">
-								<span className="font-mono text-sm font-bold text-primary">
-									N
-								</span>
+						<Link href="/" className="group flex items-center gap-2.5">
+							<span className="relative grid size-9 place-items-center rounded-sm border border-primary/60 bg-primary/10 shadow-[var(--nf-glow-primary)] transition-colors group-hover:border-primary"
+								style={{
+									clipPath:
+										"polygon(0 0.4rem, 0.4rem 0, 100% 0, 100% calc(100% - 0.4rem), calc(100% - 0.4rem) 100%, 0 100%)",
+								}}
+							>
+								<Zap className="size-[1.15rem] text-primary" strokeWidth={2.5} fill="currentColor" fillOpacity={0.15} />
 							</span>
 							<span className="hidden font-mono text-sm font-bold uppercase tracking-[0.25em] text-foreground sm:inline">
 								Neon<span className="text-primary">forge</span>
@@ -111,6 +116,15 @@ export function Shell({
 							{currentLabel(active)}
 						</span>
 						<span className="ml-auto flex items-center gap-2 lg:ml-0">
+							<a
+								href="https://github.com/ghaerdi/neonforge"
+								target="_blank"
+								rel="noreferrer"
+								className="grid size-8 place-items-center rounded-sm border border-glass-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary hover:shadow-[var(--nf-glow-primary)]"
+								aria-label="Neonforge on GitHub"
+							>
+								<Github className="size-[1.05rem]" strokeWidth={2} />
+							</a>
 							<ThemeToggle />
 						</span>
 					</div>
