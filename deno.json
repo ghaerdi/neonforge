@@ -20,9 +20,9 @@
     "registry:build": "bun run scripts/build-registry.mjs",
     "registry:build:local": "bun run scripts/build-registry.mjs --local --base-url=http://localhost:4173/r",
     "registry:serve": "deno run --allow-net --allow-read --allow-env scripts/serve-deno.ts",
-    "dev": "cd nextjs && deno run -A --no-check node_modules/.bin/next dev",
+    "dev": "cd nextjs && bun run next dev",
     "build": "cd nextjs && bun run next build",
-    "start": "cd nextjs && deno run -A --no-check node_modules/.bin/next start",
+    "start": "cd nextjs && bun run next start",
     "test": "cd nextjs && bunx vitest run",
     "test:watch": "cd nextjs && bunx vitest"
   }

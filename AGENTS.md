@@ -31,7 +31,8 @@ bun install
 bun run scripts/build-registry.mjs            # rebuild styles/registry.json + public/r/
 bun run scripts/build-registry.mjs --local    # local-relative registryDependencies
 
-deno task dev        # Next.js dev server (:3000)
+deno task dev        # Next.js dev server (:3000) — runs under BUN, do NOT revert to `deno run .../next dev` (Deno's node:http drops bytes from chunked SSR HTML → hydration mismatch; see git log)
+
 deno task build      # Next.js production build
 deno task test       # Vitest suite
 ```

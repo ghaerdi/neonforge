@@ -140,9 +140,7 @@ export function WeatherWidget() {
 							<span className="font-mono text-[0.625rem] uppercase tracking-widest text-foreground">
 								{d}
 							</span>
-							<span className="font-mono text-xs text-muted-foreground">
-								{cond}
-							</span>
+							<span className="font-mono text-xs text-muted-foreground">{cond}</span>
 							<span className="font-mono text-xs font-bold text-foreground">
 								{fmt(hi)} / {fmt(lo)}
 							</span>
@@ -183,9 +181,7 @@ export function SystemControls() {
 				</div>
 				<div className="flex items-center justify-between rounded-md border border-glass-border bg-secondary/15 px-3 py-2.5">
 					<div>
-						<p className="text-sm font-medium text-foreground">
-							Kiroshi optics
-						</p>
+						<p className="text-sm font-medium text-foreground">Kiroshi optics</p>
 						<p className="font-mono text-[0.5625rem] uppercase tracking-widest text-muted-foreground">
 							HUD overlay · on
 						</p>
@@ -402,9 +398,7 @@ export function VehicleWidget() {
 						<p className="font-mono text-[0.54rem] uppercase tracking-widest text-muted-foreground">
 							{k}
 						</p>
-						<p className="mt-0.5 font-mono text-sm font-bold text-foreground">
-							{v}
-						</p>
+						<p className="mt-0.5 font-mono text-sm font-bold text-foreground">{v}</p>
 					</div>
 				))}
 			</div>
