@@ -1,14 +1,11 @@
 # NEONFORGE ⚡
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+
 **Cyberpunk · Industrial · Glass** — a shadcn-style copy-paste component system
 with a modern-minimalist cyberpunk aesthetic. Glassmorphic transparent surfaces,
 chamfered corners, neon glow accents, and hazard-grade utility classes.
-
 Built on **Tailwind CSS v4** (CSS-first config) + **React 19** (Radix UI).
-
-```
-▙▟  ▟███▜  ████   ▀██▌ ▀███▌
-```
 
 ## Installation
 
