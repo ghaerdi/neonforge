@@ -32,6 +32,7 @@ import {
 	SleepTracker,
 	SystemTelemetry,
 } from "./telemetry";
+import { TodoWidget } from "./todo";
 
 /** Consolidated cyberpunk widgets — re-theme as the axes change. */
 export function CreateShowcase() {
@@ -68,6 +69,7 @@ export function CreateShowcase() {
 				<DeliveryWidget />
 				<WorldWidgets />
 				<LoginShowcase />
+				<TodoWidget />
 			</Masonry>
 		</div>
 	);
