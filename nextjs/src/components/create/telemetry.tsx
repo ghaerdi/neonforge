@@ -1,6 +1,9 @@
 "use client";
 
+import * as React from "react";
+
 import { Cpu, HeartPulse, Moon, ShieldAlert, Zap } from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,6 +29,30 @@ import { Meter, POWER, ShowcaseCard, SYS, VITALS } from "./card-ui";
 
 /** Merged system telemetry — district power + daemon bars. */
 export function SystemTelemetry() {
+	const [tracing, setTracing] = React.useState(false);
+	const [traceLoad, setTraceLoad] = React.useState(0); // daemon bar when tracing
+	const [totalDraw, setTotalDraw] = React.useState(176);
+
+	const runTrace = () => {
+		if (tracing) return;
+		setTracing(true);
+		setTraceLoad(0);
+		// sweep ICE trace load to 100 over ~2.5s
+		const start = Date.now();
+		const id = window.setInterval(() => {
+			const t = Math.min(1, (Date.now() - start) / 2500);
+			setTraceLoad(Math.round(t * 100));
+			setTotalDraw(176 + Math.round(t * 24));
+			if (t >= 1) {
+				window.clearInterval(id);
+				setTracing(false);
+				toast.info("ICE trace complete", {
+					description: "3 daemons packet-traced · no blind spots",
+				});
+			}
+		}, 250);
+	};
+
 	return (
 		<ShowcaseCard title="System telemetry" sub="power draw + daemons">
 			<div className="flex flex-col gap-2.5">
@@ -43,7 +70,7 @@ export function SystemTelemetry() {
 							{ h: "04", draw: 166 },
 							{ h: "06", draw: 158 },
 							{ h: "08", draw: 171 },
-							{ h: "10", draw: 176 },
+							{ h: "10", draw: totalDraw },
 						]}
 						margin={{ left: -16, right: 8, top: 4, bottom: 0 }}
 					>
@@ -100,7 +127,7 @@ export function SystemTelemetry() {
 						<Zap className="size-3.5 text-warning" /> total draw
 					</span>
 					<span className="font-mono text-sm font-bold text-foreground">
-						176 MW
+						{totalDraw} MW{tracing ? " · tracing" : ""}
 					</span>
 				</div>
 			</div>
@@ -119,9 +146,21 @@ export function SystemTelemetry() {
 						</span>
 					</div>
 				))}
+				{tracing && (
+					<div className="flex items-center gap-3">
+						<span className="w-7 shrink-0 font-mono text-[0.5625rem] uppercase tracking-widest text-muted-foreground">
+							ice
+						</span>
+						<Meter value={traceLoad} color="bg-warning/85" />
+						<span className="w-8 shrink-0 text-right font-mono text-xs text-foreground">
+							{traceLoad}%
+						</span>
+					</div>
+				)}
 			</div>
-			<Button size="sm" className="mt-3 w-full">
-				<Cpu className="size-3.5" /> Trace ICE
+			<Button size="sm" className="mt-3 w-full" onClick={runTrace} disabled={tracing}>
+				<Cpu className={`size-3.5 ${tracing ? "animate-spin" : ""}`} />{" "}
+				{tracing ? "Tracing ICE…" : "Trace ICE"}
 			</Button>
 		</ShowcaseCard>
 	);
@@ -131,6 +170,14 @@ export function SystemTelemetry() {
 export function HealthMonitor() {
 	const W = 160,
 		H = 46;
+	// live pulse — drifts every ~2s like a real monitor.
+	const [pulse, setPulse] = React.useState(74);
+	React.useEffect(() => {
+		const id = window.setInterval(() => {
+			setPulse((p) => Math.max(68, Math.min(80, p + (Math.random() < 0.5 ? -1 : 1))));
+		}, 2000);
+		return () => window.clearInterval(id);
+	}, []);
 	const line = (arr: number[], min: number, max: number) =>
 		arr
 			.map((v, i) => {
@@ -143,7 +190,7 @@ export function HealthMonitor() {
 		<ShowcaseCard title="Health monitor" sub="vitals · 5d trend">
 			<div className="grid grid-cols-3 gap-2">
 				{[
-					["pulse", "74", "bpm"],
+					["pulse", String(pulse), "bpm"],
 					["sys", "118", "mmhg"],
 					["sleep", "7h24", ""],
 				].map(([k, v, u]) => (
@@ -275,6 +322,19 @@ export function SleepTracker() {
 }
 
 export function CyberpsychosisMonitor() {
+	// chrome + stress drift upward slowly — risk climbs.
+	const [risk, setRisk] = React.useState({ chrome: 71, empathy: 33, stress: 58 });
+	React.useEffect(() => {
+		const id = window.setInterval(() => {
+			setRisk((r) => ({
+				chrome: Math.min(96, Math.max(60, r.chrome + (Math.random() < 0.6 ? 1 : -1))),
+				empathy: Math.max(12, Math.min(45, r.empathy + (Math.random() < 0.4 ? -1 : 1))),
+				stress: Math.min(92, Math.max(40, r.stress + (Math.random() < 0.55 ? 1 : -1))),
+			}));
+		}, 2600);
+		return () => window.clearInterval(id);
+	}, []);
+	const { chrome, empathy, stress } = risk;
 	return (
 		<ShowcaseCard title="Cyberpsychosis" sub="chrome stress · one-shot risk">
 			<div className="mb-3 flex items-center justify-between rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2">
@@ -341,9 +401,9 @@ export function CyberpsychosisMonitor() {
 			</ChartContainer>
 			<div className="flex flex-col gap-2.5">
 				{[
-					["chrome", 71],
-					["empathy", 33],
-					["stress", 58],
+					["chrome", chrome],
+					["empathy", empathy],
+					["stress", stress],
 				].map(([k, v]) => (
 					<div key={String(k)} className="flex items-center gap-3">
 						<span className="w-16 shrink-0 font-mono text-[0.5625rem] uppercase tracking-widest text-muted-foreground">
@@ -368,6 +428,19 @@ export function CyberpsychosisMonitor() {
 }
 
 export function DeviantMonitor() {
+	// deviancy creeps up; stability ticks down.
+	const [stat, setStat] = React.useState({ empathy: 74, deviancy: 61, stability: 88 });
+	React.useEffect(() => {
+		const id = window.setInterval(() => {
+			setStat((s) => ({
+				empathy: Math.min(90, Math.max(50, s.empathy + (Math.random() < 0.45 ? 1 : -1))),
+				deviancy: Math.min(95, Math.max(40, s.deviancy + (Math.random() < 0.6 ? 1 : -1))),
+				stability: Math.max(30, Math.min(98, s.stability + (Math.random() < 0.35 ? -1 : 1))),
+			}));
+		}, 2600);
+		return () => window.clearInterval(id);
+	}, []);
+	const { empathy, deviancy, stability } = stat;
 	return (
 		<ShowcaseCard title="Deviant monitor" sub="android status · rA9">
 			<div className="mb-3 flex items-center justify-between rounded-md border border-primary/40 bg-primary/10 px-3 py-2">
@@ -433,9 +506,9 @@ export function DeviantMonitor() {
 			</ChartContainer>
 			<div className="flex flex-col gap-2.5">
 				{[
-					["empathy", 74],
-					["deviancy", 61],
-					["stability", 88],
+					["empathy", empathy],
+					["deviancy", deviancy],
+					["stability", stability],
 				].map(([k, v]) => (
 					<div key={String(k)} className="flex items-center gap-3">
 						<span className="w-20 shrink-0 font-mono text-[0.5625rem] uppercase tracking-widest text-muted-foreground">
@@ -460,6 +533,39 @@ export function DeviantMonitor() {
 }
 
 export function NetMonitor() {
+	// live packet feed — a new sample every ~2.4s.
+	const [feed, setFeed] = React.useState([
+		{ t: "10:00", pkt: 12 },
+		{ t: "10:05", pkt: 41 },
+		{ t: "10:10", pkt: 28 },
+		{ t: "10:15", pkt: 63 },
+		{ t: "10:20", pkt: 34 },
+		{ t: "10:25", pkt: 55 },
+		{ t: "10:30", pkt: 21 },
+	]);
+	const [scan, setScan] = React.useState(false);
+
+	React.useEffect(() => {
+		const id = window.setInterval(() => {
+			setFeed((prev) => [
+				...prev.slice(1),
+				{ t: `10:3${(prev.length % 5) + 1}`, pkt: 15 + Math.round(Math.random() * 60) },
+			]);
+		}, 2400);
+		return () => window.clearInterval(id);
+	}, []);
+
+	const runScan = () => {
+		if (scan) return;
+		setScan(true);
+		window.setTimeout(() => {
+			setScan(false);
+			toast.success("Net scan clean", {
+				description: "no breaches · 3 daemons neutralized",
+			});
+		}, 1600);
+	};
+
 	return (
 		<ShowcaseCard title="Net security" sub="breach protocol · firewall">
 			<div className="flex items-center justify-between rounded-md border border-glass-border bg-secondary/10 px-3 py-2">
@@ -474,18 +580,7 @@ export function NetMonitor() {
 				config={{ pkt: { label: "traffic", color: "var(--color-chart-4)" } }}
 				className="mt-3 h-16 w-full"
 			>
-				<LineChart
-					data={[
-						{ t: "10:00", pkt: 12 },
-						{ t: "10:05", pkt: 41 },
-						{ t: "10:10", pkt: 28 },
-						{ t: "10:15", pkt: 63 },
-						{ t: "10:20", pkt: 34 },
-						{ t: "10:25", pkt: 55 },
-						{ t: "10:30", pkt: 21 },
-					]}
-					margin={{ left: -16, right: 8, top: 4, bottom: 0 }}
-				>
+				<LineChart data={feed} margin={{ left: -16, right: 8, top: 4, bottom: 0 }}>
 					<CartesianGrid
 						vertical={false}
 						strokeDasharray="3 3"
@@ -529,7 +624,18 @@ export function NetMonitor() {
 					</div>
 				))}
 			</div>
-			<div className="mt-3 flex items-center gap-2 rounded-md border border-glass-border bg-secondary/15 px-3 py-2">
+			<Button
+				size="sm"
+				variant="outline"
+				clip="none"
+				className="mt-3 w-full"
+				onClick={runScan}
+				disabled={scan}
+			>
+				<ShieldAlert className={`size-3.5 ${scan ? "animate-spin" : ""}`} />
+				{scan ? "Scanning…" : "Quick net scan"}
+			</Button>
+			<div className="mt-2 flex items-center gap-2 rounded-md border border-glass-border bg-secondary/15 px-3 py-2">
 				<ShieldAlert className="size-4 shrink-0 text-destructive" />
 				<p className="text-xs text-muted-foreground">
 					3 daemons neutralized ·{" "}

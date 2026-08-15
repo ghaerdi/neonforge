@@ -1,5 +1,7 @@
 "use client";
 
+import * as React from "react";
+
 import {
 	ArrowDownRight,
 	ArrowUpRight,
@@ -13,6 +15,7 @@ import {
 	RefreshCw,
 	Wallet,
 } from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,6 +29,21 @@ import { Pie, PieChart } from "recharts";
 import { Meter, ShowcaseCard, TXNS } from "./card-ui";
 
 export function BankWidget() {
+	const [balance, setBalance] = React.useState(1284500);
+	// quick +/- amounts in ¥
+	const move = (delta: number, kind: "in" | "out") => {
+		setBalance((b) => {
+			const next = Math.max(0, b + delta);
+			if (next !== b) {
+				toast[`${kind === "in" ? "success" : "info"}`](kind === "in" ? "Funds added" : "Withdrawal", {
+					description: `${kind === "in" ? "+" : "-"}¥${delta.toLocaleString()}`,
+				});
+				return next;
+			}
+			return b;
+		});
+	};
+	const fmt = (n: number) => `¥${n.toLocaleString()}`;
 	return (
 		<ShowcaseCard title="Bank" sub="neon-forge savings · ¥">
 			<div className="rounded-md border border-primary/40 bg-primary/10 px-3 py-2.5">
@@ -33,7 +51,7 @@ export function BankWidget() {
 					available
 				</p>
 				<p className="mt-1 font-mono text-2xl font-bold text-foreground">
-					¥<span className="text-primary">1,284,500</span>
+					¥<span className="text-primary">{fmt(balance).slice(1)}</span>
 				</p>
 			</div>
 			<ChartContainer
@@ -127,10 +145,16 @@ export function BankWidget() {
 				))}
 			</div>
 			<div className="mt-3 flex gap-2">
-				<Button size="sm" className="flex-1">
+				<Button size="sm" className="flex-1" onClick={() => move(25000, "in")}>
 					<ArrowDownRight className="size-3.5" /> Add
 				</Button>
-				<Button size="sm" variant="outline" clip="none" className="flex-1">
+				<Button
+					size="sm"
+					variant="outline"
+					clip="none"
+					className="flex-1"
+					onClick={() => move(25000, "out")}
+				>
 					<ArrowUpRight className="size-3.5" /> Withdraw
 				</Button>
 			</div>
@@ -139,17 +163,43 @@ export function BankWidget() {
 }
 
 export function NewsWidget() {
-	const items = [
-		["Arasaka expands SaKatsu into Watson", "corp", "12m"],
-		["Council approves netwatch sweep", "city", "38m"],
-		["Cyberpsycho sighting — sector 9", "alert", "1h"],
+	const FEEDS = [
+		[
+			["Arasaka expands SaKatsu into Watson", "corp", "12m"],
+			["Council approves netwatch sweep", "city", "38m"],
+			["Cyberpsycho sighting — sector 9", "alert", "1h"],
+		],
+		[
+			["Afterlife opens rooftop lounge", "street", "4m"],
+			["Nomads seal Bodhi gig with Raffen", "nomad", "22m"],
+			["Trauma Team on-call surge", "med", "51m"],
+		],
+		[
+			["Militech recall hits Watson", "corp", "7m"],
+			["Black market flux — ice trad suppressed", "street", "29m"],
+			["Reactor leak warning, Kabuki", "alert", "2h"],
+		],
 	];
+	const [batch, setBatch] = React.useState(0);
+	const [spinning, setSpinning] = React.useState(false);
+	const items = FEEDS[batch];
+
+	const refresh = () => {
+		if (spinning) return;
+		setSpinning(true);
+		window.setTimeout(() => {
+			setBatch((b) => (b + 1) % FEEDS.length);
+			setSpinning(false);
+			toast.info("Feed refreshed", { description: "3 new headlines on the wire" });
+		}, 500);
+	};
+
 	return (
 		<ShowcaseCard title="News" sub="night city · datacast">
 			<div className="flex flex-col gap-2.5">
 				{items.map(([head, tag, ago], i) => (
 					<div
-						key={i}
+						key={`${batch}-${i}`}
 						className="flex items-start gap-2.5 rounded-md border border-glass-border bg-secondary/10 px-3 py-2"
 					>
 						<Newspaper className="mt-0.5 size-3.5 shrink-0 text-primary" />
@@ -163,14 +213,35 @@ export function NewsWidget() {
 					</div>
 				))}
 			</div>
-			<Button size="sm" variant="ghost" className="mt-2 w-full">
-				<RefreshCw className="size-3.5" /> Refresh feed
+			<Button
+				size="sm"
+				variant="ghost"
+				className="mt-2 w-full"
+				onClick={refresh}
+				disabled={spinning}
+			>
+				<RefreshCw className={`size-3.5 ${spinning ? "animate-spin" : ""}`} />{" "}
+				Refresh feed
 			</Button>
 		</ShowcaseCard>
 	);
 }
 
 export function TravelWidget() {
+	const routes = [
+		["Watson → Japantown", "4 min"],
+		["Watson → City Center", "11 min"],
+		["Watson → Pacifica", "24 min"],
+	];
+	const [selected, setSelected] = React.useState(0);
+
+	const plan = () => {
+		const [r, d] = routes[selected];
+		toast.info("Route planned", {
+			description: `${r} · ${d} · fare marked`,
+		});
+	};
+
 	return (
 		<ShowcaseCard title="Travel" sub="fast-travel · Metro NC">
 			<div className="flex items-center justify-between rounded-md border border-glass-border bg-secondary/10 px-3 py-2">
@@ -182,14 +253,16 @@ export function TravelWidget() {
 				</Badge>
 			</div>
 			<div className="mt-3 flex flex-col gap-2">
-				{[
-					["Watson → Japantown", "4 min"],
-					["Watson → City Center", "11 min"],
-					["Watson → Pacifica", "24 min"],
-				].map(([route, dur]) => (
-					<div
+				{routes.map(([route, dur], i) => (
+					<button
 						key={route}
-						className="flex items-center justify-between rounded-md border border-glass-border bg-secondary/10 px-3 py-2"
+						type="button"
+						onClick={() => setSelected(i)}
+						className={`flex items-center justify-between rounded-md border px-3 py-2 text-left transition-colors ${
+							i === selected
+								? "border-primary/50 bg-primary/10"
+								: "border-glass-border bg-secondary/10 hover:bg-secondary/20"
+						}`}
 					>
 						<span className="flex items-center gap-2 text-xs text-foreground">
 							<Plane className="size-3.5 text-primary" />
@@ -198,10 +271,10 @@ export function TravelWidget() {
 						<span className="font-mono text-xs text-muted-foreground">
 							{dur}
 						</span>
-					</div>
+					</button>
 				))}
 			</div>
-			<Button size="sm" className="mt-2 w-full">
+			<Button size="sm" className="mt-2 w-full" onClick={plan}>
 				<Map className="size-3.5" /> Plan route
 			</Button>
 		</ShowcaseCard>
@@ -209,6 +282,37 @@ export function TravelWidget() {
 }
 
 export function DeliveryWidget() {
+	// Auto-advancing delivery progress: 0 → 100 over ~30s, then "delivered".
+	const [pct, setPct] = React.useState(36);
+	const [done, setDone] = React.useState(false);
+
+	React.useEffect(() => {
+		if (done) return;
+		const id = window.setInterval(() => {
+			setPct((p) => {
+				const next = p + 4;
+				if (next >= 100) {
+					setDone(true);
+					toast.success("Order delivered", {
+						description: "Burrito XL · Kabuki · order #7721",
+					});
+					return 100;
+				}
+				return next;
+			});
+		}, 2400);
+		return () => window.clearInterval(id);
+	}, [done]);
+
+	const eta = Math.ceil((100 - (done ? 100 : pct)) / (100 / 12));
+	const stepState = done
+		? "delivered"
+		: pct < 50
+			? "in transit"
+			: pct < 100
+				? "arriving"
+				: "delivered";
+
 	return (
 		<ShowcaseCard title="Delivery" sub="courier · pacifica pack">
 			<div className="rounded-md border border-glass-border bg-secondary/10 px-3 py-2.5">
@@ -216,37 +320,47 @@ export function DeliveryWidget() {
 					<span className="flex items-center gap-2 text-xs text-foreground">
 						<Package className="size-3.5 text-primary" /> Burrito XL · Kabuki
 					</span>
-					<Badge variant="success" className="uppercase">
-						en route
+					<Badge
+						variant={done ? "success" : "info"}
+						className="uppercase"
+					>
+						{done ? "delivered" : stepState}
 					</Badge>
 				</div>
 				<p className="mt-1 font-mono text-[0.5625rem] uppercase tracking-widest text-muted-foreground">
-					ETR 12 min · order #7721
+					ETR {done ? "0" : eta} min · order #7721 · {pct}%
 				</p>
 			</div>
 			<div className="mt-3 flex flex-col gap-2">
-				{[
-					["picked up", "done"],
-					["in transit", "active"],
-					["delivery", "pending"],
-				].map(([step, state]) => (
-					<div key={step} className="flex items-center gap-2.5">
-						<span
-							className={`size-2.5 rounded-full border ${state === "done" ? "border-success bg-success" : state === "active" ? "border-primary bg-primary animate-pulse" : "border-glass-border bg-glass"}`}
-						/>
-						<span className="flex items-center gap-2 font-mono text-[0.625rem] uppercase tracking-widest text-muted-foreground">
-							{state === "active" ? (
-								<Bike className="size-3.5 text-primary" />
-							) : null}
-							{step}
-						</span>
-						{state === "active" ? (
-							<span className="ml-auto text-xs text-foreground">
-								out for delivery
+				{(["picked up", "in transit", "delivery"] as const).map((step, i) => {
+					const idx = ["picked up", "in transit", "delivery"].indexOf(step);
+					const state =
+						done || pct >= 100
+							? "done"
+							: pct >= idx * 40 + 10
+								? "done"
+								: pct >= (idx - 1) * 40 + 10 && pct > 0
+									? "active"
+									: "pending";
+					return (
+						<div key={step} className="flex items-center gap-2.5">
+							<span
+								className={`size-2.5 rounded-full border ${state === "done" ? "border-success bg-success" : state === "active" ? "border-primary bg-primary animate-pulse" : "border-glass-border bg-glass"}`}
+							/>
+							<span className="flex items-center gap-2 font-mono text-[0.625rem] uppercase tracking-widest text-muted-foreground">
+								{step === "in transit" ? (
+									<Bike className="size-3.5 text-primary" />
+								) : null}
+								{step}
 							</span>
-						) : null}
-					</div>
-				))}
+							{state === "active" || stepState === "in transit" ? (
+								<span className="ml-auto text-xs text-foreground">
+									{pct}% · ETR {eta}m
+								</span>
+							) : null}
+						</div>
+					);
+				})}
 			</div>
 		</ShowcaseCard>
 	);
