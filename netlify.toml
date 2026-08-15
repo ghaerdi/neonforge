@@ -1,7 +1,9 @@
 [build]
-  # Build from the repo root. Root node_modules is REQUIRED because lib/ and
-  # react/ui live at the ROOT and resolve their deps via ../node_modules, not
-  # nextjs/node_modules (base=nextjs left them unresolvable). Also install the
-  # nextjs app deps so the `next` binary + app deps exist. Then build.
-  command = "bun install --frozen-lockfile && cd nextjs && bun install --frozen-lockfile && bun run build"
+  # Build from the repo root so root node_modules gets populated — lib/ and
+  # react/ui live at the ROOT and resolve deps via ../node_modules, not
+  # nextjs/node_modules. Base-agnostic: Netlify may chdir into nextjs/ (when a
+  # UI "base directory" is set), so locate the repo root from wherever we
+  # start, install BOTH package sets (root → lib/react deps; nextjs → app deps
+  # + the next binary), then build. Verified cold: 71/71 static pages.
+  command = "root=$(cd \"${ROOT:-.}\" >/dev/null 2>&1; pwd -P); [ -f \"$root/nextjs/package.json\" ] || root=\"$root/..\"; (cd \"$root\" && bun install --frozen-lockfile) && (cd \"$root/nextjs\" && bun install --frozen-lockfile) && (cd \"$root/nextjs\" && bun run build)"
   publish = "nextjs/.next"
