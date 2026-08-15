@@ -88,17 +88,30 @@ export function Shell({
 				<header className="sticky top-0 z-20 border-b border-glass-border bg-background/80 backdrop-blur-xl">
 					<div className="flex h-14 items-center gap-2 px-4 sm:px-6">
 						<Link href="/" className="group flex items-center gap-2.5">
-							<span className="relative grid size-9 place-items-center bg-primary/10 shadow-[var(--nf-glow-primary)] transition-colors group-hover:bg-primary/15"
-								style={{
-									clipPath:
-										"polygon(0 0.4rem, 0.4rem 0, 100% 0, 100% calc(100% - 0.4rem), calc(100% - 0.4rem) 100%, 0 100%)",
-									// inset outline (not clipped by clip-path) so the edge
-									// follows the chamfer without getting cut off.
-									outline: "1px solid color-mix(in srgb, var(--primary) 60%, transparent)",
-									outlineOffset: "-1px",
-								}}
-							>
-								<Zap className="size-[1.15rem] text-primary" strokeWidth={2.5} fill="currentColor" fillOpacity={0.15} />
+							<span className="relative block size-9 shrink-0">
+								<svg
+									viewBox="0 0 36 36"
+									className="absolute inset-0 size-full text-primary"
+									aria-hidden="true"
+								>
+									{/* chamfered frame: outer = border, inner = bg fill.
+											Because the border IS a chamfered polygon, clip-path
+											never slices it — the edge follows the chamfer exactly. */}
+									<polygon
+										points="7,0 36,0 36,29 29,36 0,36 0,7"
+										fill="color-mix(in srgb, var(--primary) 60%, transparent)"
+									/>
+									<polygon
+										points="8.5,1.5 34.5,1.5 34.5,27.5 27.5,34.5 1.5,34.5 1.5,8.5"
+										fill="var(--background)"
+									/>
+								</svg>
+								<Zap
+									className="absolute inset-0 m-auto size-[1.15rem] text-primary"
+									strokeWidth={2.5}
+									fill="currentColor"
+									fillOpacity={0.25}
+								/>
 							</span>
 							<span className="hidden font-mono text-sm font-bold uppercase tracking-[0.25em] text-foreground sm:inline">
 								Neon<span className="text-primary">forge</span>

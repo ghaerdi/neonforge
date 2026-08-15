@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- chamfered plate (background) -->
+  <path d="M14 4 60 4 60 50 50 60 4 60 4 14 Z" fill="#03060d"/>
+  <!-- receding edge highlight -->
+  <path d="M14 4 60 4 60 10 20 10 10 20 10 14 Z" fill="#0c1c25"/>
+
+  <!-- chamfered frame (matches header logo, primary at 60 percent over bg) -->
+  <path d="M14 4 60 4 60 50 50 60 4 60 4 14 Z" fill="none" stroke="#3a8c9e" stroke-width="1.5"/>
+
+  <!-- bolt (solid theme cyan) -->
+  <path
+    d="M36 12 20 37h9l-4 15 18-25h-10z"
+    fill="#5fe5ff"
+  />
+</svg>

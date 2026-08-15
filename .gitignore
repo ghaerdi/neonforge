@@ -10,6 +10,7 @@ public/r/
 .pi-lens/
 *.log
 .DS_Store
+nextjs/tsconfig.tsbuildinfo
 
 # Devenv
 .devenv*
