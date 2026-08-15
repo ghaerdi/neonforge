@@ -35,7 +35,7 @@ jobs:
         run: cd nextjs && bun x tsc --noEmit
 
       - name: Test suite
-        run: bun run test
+        run: cd nextjs && bun x vitest run
 
   build:
     name: next build (71 pages)

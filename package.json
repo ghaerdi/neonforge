@@ -5,7 +5,8 @@
   "description": "Cyberpunk · industrial · glass component registry for shadcn CLI",
   "scripts": {
     "build": "bun run scripts/build-registry.mjs",
-    "serve": "bun run scripts/serve-local.sh"
+    "serve": "bun run scripts/serve-local.sh",
+    "test": "cd nextjs && bun x vitest run"
   },
   "dependencies": {
     "@ghaerdi/rustify": "2.3.0-beta.1",
