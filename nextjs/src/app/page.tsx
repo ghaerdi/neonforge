@@ -64,7 +64,7 @@ export default function HomePage() {
                     "polygon(0 0.65rem, 0.65rem 0, 100% 0, 100% calc(100% - 0.65rem), calc(100% - 0.65rem) 100%, 0 100%)",
                 }}
               >
-                ◈ Create a theme
+                Create a theme
                 <span className="transition-transform group-hover:translate-x-0.5">
                   →
                 </span>
