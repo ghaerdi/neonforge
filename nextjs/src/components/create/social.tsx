@@ -320,7 +320,7 @@ export function MusicPlayer() {
 					return Math.max(8, Math.min(96, v + drift));
 				}),
 			);
-		}, 100);
+		}, 150);
 		return () => window.clearInterval(id);
 	}, [playing]);
 
