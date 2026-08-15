@@ -1,4 +1,7 @@
 [build]
-  base = "nextjs"
-  command = "bun install --frozen-lockfile && bun run build"
-  publish = ".next"
+  # Build from the repo root. Root node_modules is REQUIRED because lib/ and
+  # react/ui live at the ROOT and resolve their deps via ../node_modules, not
+  # nextjs/node_modules (base=nextjs left them unresolvable). Also install the
+  # nextjs app deps so the `next` binary + app deps exist. Then build.
+  command = "bun install --frozen-lockfile && cd nextjs && bun install --frozen-lockfile && bun run build"
+  publish = "nextjs/.next"
