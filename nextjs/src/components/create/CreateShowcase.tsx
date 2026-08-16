@@ -50,17 +50,21 @@ export function CreateShowcase() {
         </span>
       </div>
       <Masonry>
-        <DeliveryWidget />
+        <DiscordProfile />
+        <TodoWidget />
+        <GlitchWidget />
         <WorldWidgets />
+        <BankWidget />
         <HealthMonitor />
+        <MusicPlayer />
+        <DeliveryWidget />
         <WeatherWidget />
         <SystemTelemetry />
-        <CounterWidget />
         <DisasterAlerts />
         <NetMonitor />
-        <GlitchWidget />
         <TravelWidget />
         <SleepTracker />
+        <CounterWidget />
         <DeviantMonitor />
         <CyberpsychosisMonitor />
         <ControlPanelWidget />
@@ -69,10 +73,6 @@ export function CreateShowcase() {
         <SystemControls />
         <ProfileWidget />
         <Messenger />
-        <TodoWidget />
-        <BankWidget />
-        <MusicPlayer />
-        <DiscordProfile />
         <VehicleWidget />
         <LoginShowcase />
       </Masonry>
