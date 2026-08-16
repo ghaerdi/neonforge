@@ -1014,6 +1014,358 @@
     opacity: 0;
   }
 }
+/* --nf-g must be a registered <number> — unregistered custom properties are
+   NOT substituted inside @keyframes in Chromium, silently dropping the
+   animated declaration (transform stays none). @property fixes that. */
+@property --nf-g {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1.4;
+}
+@keyframes nf-wiggle {
+  0% {
+    transform: skewX(calc(24deg * var(--nf-g, 1.4)));
+  }
+  10% {
+    transform: skewX(calc(-8deg * var(--nf-g, 1.4)));
+  }
+  20% {
+    transform: skewX(calc(55deg * var(--nf-g, 1.4)));
+  }
+  30% {
+    transform: skewX(calc(-90deg * var(--nf-g, 1.4)));
+  }
+  40% {
+    transform: skewX(calc(29deg * var(--nf-g, 1.4)));
+  }
+  50% {
+    transform: skewX(calc(-90deg * var(--nf-g, 1.4)));
+  }
+  60% {
+    transform: skewX(calc(3deg * var(--nf-g, 1.4)));
+  }
+  70% {
+    transform: skewX(calc(-2deg * var(--nf-g, 1.4)));
+  }
+  80% {
+    transform: skewX(calc(1deg * var(--nf-g, 1.4)));
+  }
+  90% {
+    transform: skewX(calc(10deg * var(--nf-g, 1.4)));
+  }
+  100% {
+    transform: skewX(0deg);
+  }
+}
+@keyframes nf-wiggle-subtle {
+  0% {
+    transform: skewX(12deg);
+  }
+  10% {
+    transform: skewX(-4deg);
+  }
+  20% {
+    transform: skewX(27.5deg);
+  }
+  30% {
+    transform: skewX(-45deg);
+  }
+  40% {
+    transform: skewX(14.5deg);
+  }
+  50% {
+    transform: skewX(-45deg);
+  }
+  60% {
+    transform: skewX(1.5deg);
+  }
+  70% {
+    transform: skewX(-1deg);
+  }
+  80% {
+    transform: skewX(0.5deg);
+  }
+  90% {
+    transform: skewX(5deg);
+}
+  100% {
+    transform: skewX(0deg);
+  }
+}
+@keyframes nf-rgb-split {
+  0%,
+  40%,
+  100% {
+    text-shadow: 0 0 transparent;
+  }
+  44% {
+    text-shadow:
+      calc(0.22em * var(--nf-g, 1.4)) calc(0.1em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(-0.28em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(-0.05em * var(--nf-g, 1.4)) calc(-0.1em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+  50% {
+    text-shadow:
+      calc(-0.22em * var(--nf-g, 1.4)) calc(-0.1em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(0.28em * var(--nf-g, 1.4)) calc(0.06em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(0.05em * var(--nf-g, 1.4)) calc(0.1em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+  56% {
+    text-shadow:
+      calc(0.34em * var(--nf-g, 1.4)) calc(0.14em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(-0.4em * var(--nf-g, 1.4)) calc(-0.08em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(-0.06em * var(--nf-g, 1.4)) calc(-0.12em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+  62% {
+    text-shadow:
+      calc(-0.34em * var(--nf-g, 1.4)) calc(-0.14em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(0.4em * var(--nf-g, 1.4)) calc(0.08em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(0.06em * var(--nf-g, 1.4)) calc(0.12em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+  68% {
+    text-shadow:
+      calc(0.17em * var(--nf-g, 1.4)) calc(0.07em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(-0.2em * var(--nf-g, 1.4)) calc(-0.04em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.08em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+  74% {
+    text-shadow:
+      calc(-0.17em * var(--nf-g, 1.4)) calc(-0.07em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(0.2em * var(--nf-g, 1.4)) calc(0.04em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(0.03em * var(--nf-g, 1.4)) calc(0.08em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+  80% {
+    text-shadow:
+      calc(0.11em * var(--nf-g, 1.4)) calc(0.06em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(-0.14em * var(--nf-g, 1.4)) calc(-0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(-0.05em * var(--nf-g, 1.4)) calc(-0.1em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+  86% {
+    text-shadow:
+      calc(-0.11em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(0.14em * var(--nf-g, 1.4)) calc(0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(0.05em * var(--nf-g, 1.4)) calc(0.1em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+  91% {
+    text-shadow:
+      calc(0.06em * var(--nf-g, 1.4)) calc(0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(-0.08em * var(--nf-g, 1.4)) calc(-0.02em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+  95% {
+    text-shadow:
+      calc(-0.06em * var(--nf-g, 1.4)) calc(-0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(0.08em * var(--nf-g, 1.4)) calc(0.02em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(0.03em * var(--nf-g, 1.4)) calc(0.06em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+  97% {
+    text-shadow:
+      calc(0.03em * var(--nf-g, 1.4)) calc(0.02em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(-0.04em * var(--nf-g, 1.4)) calc(-0.02em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+}
+@keyframes nf-rgb-split-subtle {
+  0%,
+  40%,
+  100% {
+    text-shadow: 0 0 transparent;
+  }
+  44% {
+    text-shadow:
+      calc(0.11em * var(--nf-g, 1.4)) calc(0.05em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 70%, transparent),
+      calc(-0.14em * var(--nf-g, 1.4)) calc(-0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 70%, transparent),
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.05em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 80%, transparent);
+  }
+  50% {
+    text-shadow:
+      calc(-0.11em * var(--nf-g, 1.4)) calc(-0.05em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 70%, transparent),
+      calc(0.14em * var(--nf-g, 1.4)) calc(0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 70%, transparent),
+      calc(0.03em * var(--nf-g, 1.4)) calc(0.05em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 80%, transparent);
+  }
+  56% {
+    text-shadow:
+      calc(0.17em * var(--nf-g, 1.4)) calc(0.07em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 75%, transparent),
+      calc(-0.2em * var(--nf-g, 1.4)) calc(-0.04em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 75%, transparent),
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 85%, transparent);
+  }
+  62% {
+    text-shadow:
+      calc(-0.17em * var(--nf-g, 1.4)) calc(-0.07em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 75%, transparent),
+      calc(0.2em * var(--nf-g, 1.4)) calc(0.04em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 75%, transparent),
+      calc(0.03em * var(--nf-g, 1.4)) calc(0.06em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 85%, transparent);
+  }
+  68% {
+    text-shadow:
+      calc(0.09em * var(--nf-g, 1.4)) calc(0.04em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 80%, transparent),
+      calc(-0.1em * var(--nf-g, 1.4)) calc(-0.02em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 80%, transparent),
+      calc(-0.02em * var(--nf-g, 1.4)) calc(-0.04em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 90%, transparent);
+  }
+  74% {
+    text-shadow:
+      calc(-0.09em * var(--nf-g, 1.4)) calc(-0.04em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 80%, transparent),
+      calc(0.1em * var(--nf-g, 1.4)) calc(0.02em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 80%, transparent),
+      calc(0.02em * var(--nf-g, 1.4)) calc(0.04em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 90%, transparent);
+  }
+  80% {
+    text-shadow:
+      calc(0.06em * var(--nf-g, 1.4)) calc(0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 70%, transparent),
+      calc(-0.07em * var(--nf-g, 1.4)) calc(-0.02em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 70%, transparent),
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.05em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 80%, transparent);
+  }
+  86% {
+    text-shadow:
+      calc(-0.06em * var(--nf-g, 1.4)) calc(-0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 70%, transparent),
+      calc(0.07em * var(--nf-g, 1.4)) calc(0.02em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 70%, transparent),
+      calc(0.03em * var(--nf-g, 1.4)) calc(0.05em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 80%, transparent);
+  }
+  91% {
+    text-shadow:
+      calc(0.03em * var(--nf-g, 1.4)) calc(0.02em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 65%, transparent),
+      calc(-0.04em * var(--nf-g, 1.4)) calc(-0.01em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 65%, transparent),
+      calc(-0.02em * var(--nf-g, 1.4)) calc(-0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 75%, transparent);
+  }
+  95% {
+    text-shadow:
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.02em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 65%, transparent),
+      calc(0.04em * var(--nf-g, 1.4)) calc(0.01em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 65%, transparent),
+      calc(0.02em * var(--nf-g, 1.4)) calc(0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 75%, transparent);
+  }
+  97% {
+    text-shadow:
+      calc(0.02em * var(--nf-g, 1.4)) calc(0.01em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(-0.02em * var(--nf-g, 1.4)) calc(-0.01em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(-0.02em * var(--nf-g, 1.4)) calc(-0.03em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 70%, transparent);
+  }
+}
+/* transient chromatic edge split — pink/cyan/yellow copies flash around the
+   element's box during the wiggle, then decay to nothing. For buttons/frames:
+   the split lives on the box, never sticks while hovered. */
+@keyframes nf-edge-split {
+  0%,
+  40%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  44% {
+    box-shadow:
+      calc(0.22em * var(--nf-g, 1.4)) calc(0.1em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(-0.28em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(-0.05em * var(--nf-g, 1.4)) calc(-0.1em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 70%, transparent);
+  }
+  50% {
+    box-shadow:
+      calc(-0.22em * var(--nf-g, 1.4)) calc(-0.1em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(0.28em * var(--nf-g, 1.4)) calc(0.06em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(0.05em * var(--nf-g, 1.4)) calc(0.1em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 70%, transparent);
+  }
+  56% {
+    box-shadow:
+      calc(0.34em * var(--nf-g, 1.4)) calc(0.14em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 70%, transparent),
+      calc(-0.4em * var(--nf-g, 1.4)) calc(-0.08em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 70%, transparent),
+      calc(-0.06em * var(--nf-g, 1.4)) calc(-0.12em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 80%, transparent);
+  }
+  62% {
+    box-shadow:
+      calc(-0.34em * var(--nf-g, 1.4)) calc(-0.14em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 70%, transparent),
+      calc(0.4em * var(--nf-g, 1.4)) calc(0.08em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 70%, transparent),
+      calc(0.06em * var(--nf-g, 1.4)) calc(0.12em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 80%, transparent);
+  }
+  68% {
+    box-shadow:
+      calc(0.17em * var(--nf-g, 1.4)) calc(0.07em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 65%, transparent),
+      calc(-0.2em * var(--nf-g, 1.4)) calc(-0.04em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 65%, transparent),
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 75%, transparent);
+  }
+  74% {
+    box-shadow:
+      calc(-0.17em * var(--nf-g, 1.4)) calc(-0.07em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 65%, transparent),
+      calc(0.2em * var(--nf-g, 1.4)) calc(0.04em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 65%, transparent),
+      calc(0.03em * var(--nf-g, 1.4)) calc(0.06em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 75%, transparent);
+  }
+  80% {
+    box-shadow:
+      calc(0.11em * var(--nf-g, 1.4)) calc(0.06em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(-0.14em * var(--nf-g, 1.4)) calc(-0.03em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(-0.05em * var(--nf-g, 1.4)) calc(-0.1em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 70%, transparent);
+  }
+  86% {
+    box-shadow:
+      calc(-0.11em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(0.14em * var(--nf-g, 1.4)) calc(0.03em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(0.05em * var(--nf-g, 1.4)) calc(0.1em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 70%, transparent);
+  }
+  91% {
+    box-shadow:
+      calc(0.06em * var(--nf-g, 1.4)) calc(0.03em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 55%, transparent),
+      calc(-0.08em * var(--nf-g, 1.4)) calc(-0.02em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 55%, transparent),
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 65%, transparent);
+  }
+  95% {
+    box-shadow:
+      calc(-0.06em * var(--nf-g, 1.4)) calc(-0.03em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 55%, transparent),
+      calc(0.08em * var(--nf-g, 1.4)) calc(0.02em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 55%, transparent),
+      calc(0.03em * var(--nf-g, 1.4)) calc(0.06em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 65%, transparent);
+  }
+  97% {
+    box-shadow:
+      calc(0.03em * var(--nf-g, 1.4)) calc(0.02em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-destructive) 50%, transparent),
+      calc(-0.04em * var(--nf-g, 1.4)) calc(-0.02em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-info) 50%, transparent),
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) 0 0 color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+}
+@keyframes nf-clip-slice {
+  0%,
+  25%,
+  100% {
+    clip-path: inset(0 0 100% 0);
+    transform: translateX(0);
+  }
+  30% {
+    clip-path: inset(8% 0 72% 0);
+    transform: translateX(calc(-12px * var(--nf-g, 1.4)));
+  }
+  38% {
+    clip-path: inset(50% 0 18% 0);
+    transform: translateX(calc(12px * var(--nf-g, 1.4)));
+  }
+  46% {
+    clip-path: inset(25% 0 55% 0);
+    transform: translateX(calc(-10px * var(--nf-g, 1.4)));
+  }
+  54% {
+    clip-path: inset(80% 0 4% 0);
+    transform: translateX(calc(14px * var(--nf-g, 1.4)));
+  }
+  62% {
+    clip-path: inset(12% 0 66% 0);
+    transform: translateX(calc(-16px * var(--nf-g, 1.4)));
+  }
+  70% {
+    clip-path: inset(60% 0 10% 0);
+    transform: translateX(calc(16px * var(--nf-g, 1.4)));
+  }
+  78% {
+    clip-path: inset(35% 0 40% 0);
+    transform: translateX(calc(-8px * var(--nf-g, 1.4)));
+  }
+  85% {
+    clip-path: inset(5% 0 84% 0);
+    transform: translateX(calc(12px * var(--nf-g, 1.4)));
+  }
+  91% {
+    clip-path: inset(45% 0 28% 0);
+    transform: translateX(calc(-6px * var(--nf-g, 1.4)));
+  }
+  95% {
+    clip-path: inset(20% 0 62% 0);
+    transform: translateX(calc(6px * var(--nf-g, 1.4)));
+  }
+  97% {
+    clip-path: inset(68% 0 10% 0);
+    transform: translateX(calc(-4px * var(--nf-g, 1.4)));
+  }
+}
 
 /* ── animation utility classes ─────────────────────────────────────────────── */
 
@@ -1071,3 +1423,86 @@
 @utility animate-nf-blink {
   animation: nf-blink 1s step-end infinite;
 }
+@utility animate-nf-wiggle {
+  animation: nf-wiggle 0.55s linear 1;
+}
+@utility animate-nf-rgb-split {
+  animation: nf-rgb-split 0.55s linear 1;
+}
+@utility animate-nf-wiggle-subtle {
+  animation: nf-wiggle-subtle 0.55s linear 1;
+}
+@utility animate-nf-rgb-split-subtle {
+  animation: nf-rgb-split-subtle 0.55s linear 1;
+}
+
+/* one-shot intro — a few spaced bursts after load, then static */
+@utility animate-nf-glitch-intro {
+  animation:
+    nf-wiggle-subtle 0.55s linear 1s 1,
+    nf-rgb-split-subtle 0.55s linear 1s 1,
+    nf-wiggle-subtle 0.55s linear 2.2s 1,
+    nf-rgb-split-subtle 0.55s linear 2.2s 1,
+    nf-wiggle-subtle 0.55s linear 3.4s 1,
+    nf-rgb-split-subtle 0.55s linear 3.4s 1;
+}
+
+/* pure-CSS triggers — opt-in by class; nothing glitches by default */
+@utility nf-glitch-hover {
+  &:hover {
+    animation:
+      nf-wiggle 0.55s linear 1,
+      nf-edge-split 0.55s linear 1;
+  }
+}
+@utility nf-glitch-active {
+  &:active {
+    animation:
+      nf-wiggle 0.4s linear 1,
+      nf-edge-split 0.4s linear 1;
+  }
+}
+/* persistent chromatic split for TEXT-ONLY elements — pink/cyan/yellow
+   ghost copies under the glyph while hovered. Not for buttons: pair with
+   nf-glitch-hover on any text node. */
+@utility nf-text-split-hover {
+  &:hover {
+    text-shadow:
+      calc(0.17em * var(--nf-g, 1.4)) calc(0.07em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-destructive) 60%, transparent),
+      calc(-0.2em * var(--nf-g, 1.4)) calc(-0.04em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-info) 60%, transparent),
+      calc(-0.03em * var(--nf-g, 1.4)) calc(-0.06em * var(--nf-g, 1.4)) color-mix(in srgb, var(--color-warning) 60%, transparent);
+  }
+}
+/* transient text split — same chromatic flash but only DURING the hover
+   animation (nf-rgb-split decays to nothing). For button labels that must
+   return clean once the wiggle settles. */
+@utility nf-text-split-burst {
+  &:hover {
+    animation: nf-rgb-split 0.55s linear 1;
+  }
+}
+
+/* GlitchText ghost layers — offset copies clipped to moving slices */
+@utility nf-glitch-ghost {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  animation: nf-clip-slice 0.6s linear 1;
+}
+@utility nf-glitch-ghost-cyan {
+  color: color-mix(in srgb, var(--color-info) 75%, transparent);
+}
+@utility nf-glitch-ghost-red {
+  color: color-mix(in srgb, var(--color-destructive) 75%, transparent);
+  animation-direction: reverse;
+}
+/* intensity variants — scale the shared keyframes via --nf-g
+   (default 1.4×; subtle 0.5×; hard 2.5×) */
+@utility nf-glitch-subtle {
+  --nf-g: 0.5;
+}
+@utility nf-glitch-hard {
+  --nf-g: 2.5;
+}
+

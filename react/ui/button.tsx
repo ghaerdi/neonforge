@@ -52,6 +52,8 @@ export interface ButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
 		VariantProps<typeof buttonVariants> {
 	asChild?: boolean;
+	/** Enable a glitch burst on hover/active. Opt-in — off by default. */
+	glitch?: boolean;
 	/** Which corner(s) to carve diagonally. Default "diag" = TL + BR. */
 	clip?: ButtonClip;
 }
@@ -98,6 +100,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 			variant = "default",
 			size = "default",
 			asChild = false,
+			glitch = false,
 			clip = variant === "default" ? "diag" : "none",
 			style,
 			...props
@@ -111,13 +114,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		const ringColor =
 			RING_COLOR[variant ?? "default"] ?? "var(--nf-glass-border)";
 		const Comp = asChild ? Slot : "button";
+		const glitchClasses = glitch ? "nf-glitch-hover nf-glitch-active" : "";
 
 		/* AsChild wraps a single child element (e.g. a placeholder). The child
 		   is a plain element — render it directly with the clip. */
 		if (asChild) {
 			return (
 				<Comp
-					className={cn(classes, polygon ? "border-0" : "")}
+					className={cn(classes, glitchClasses, polygon ? "border-0" : "")}
 					style={{
 						clipPath: polygon,
 						...(polygon
@@ -136,7 +140,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		if (!polygon) {
 			return (
 				<button
-					className={cn(classes, "rounded-[var(--nf-button-radius)]")}
+					className={cn(classes, glitchClasses, "rounded-[var(--nf-button-radius)]")}
 					style={style}
 					ref={ref}
 					{...props}
@@ -151,7 +155,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		   (box-shadow) is untouched since outline lives on a separate axis. */
 		return (
 			<button
-				className={cn(classes, "border-0")}
+				className={cn(classes, glitchClasses, "border-0")}
 				style={{
 					clipPath: polygon,
 					outline: `1px solid ${ringColor}`,

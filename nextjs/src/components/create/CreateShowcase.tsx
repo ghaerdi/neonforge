@@ -2,6 +2,9 @@
 
 import { LoginShowcase } from "@/components/create/AuthBlocks";
 
+import { CounterWidget } from "./counter";
+
+
 import {
 	ControlPanelWidget,
 	DisasterAlerts,
@@ -33,6 +36,8 @@ import {
 	SystemTelemetry,
 } from "./telemetry";
 import { TodoWidget } from "./todo";
+import { GlitchWidget } from "./glitch";
+
 
 /** Consolidated cyberpunk widgets — re-theme as the axes change. */
 export function CreateShowcase() {
@@ -70,6 +75,9 @@ export function CreateShowcase() {
 				<WorldWidgets />
 				<LoginShowcase />
 				<TodoWidget />
+				<CounterWidget />
+				<GlitchWidget />
+
 			</Masonry>
 		</div>
 	);

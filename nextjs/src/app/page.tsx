@@ -56,19 +56,23 @@ export default function HomePage() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href="/create"
-                className="group inline-flex items-center gap-2 bg-primary px-8 py-3 text-base text-primary-foreground"
-                style={{
-                  clipPath:
-                    "polygon(0 0.65rem, 0.65rem 0, 100% 0, 100% calc(100% - 0.65rem), calc(100% - 0.65rem) 100%, 0 100%)",
-                }}
-              >
-                Create a theme
-                <span className="transition-transform group-hover:translate-x-0.5">
-                  →
+              <span className="animate-nf-glitch-intro inline-flex">
+                <span className="nf-glitch-hover nf-glitch-active nf-glitch-subtle inline-flex">
+                  <Link
+                    href="/create"
+                    className="group inline-flex items-center gap-2 bg-primary px-8 py-3 text-base font-bold text-primary-foreground nf-text-split-burst [--nf-g:1.1]"
+                    style={{
+                      clipPath:
+                        "polygon(0 0.65rem, 0.65rem 0, 100% 0, 100% calc(100% - 0.65rem), calc(100% - 0.65rem) 100%, 0 100%)",
+                    }}
+                  >
+                    Create a theme
+                    <span className="transition-transform group-hover:translate-x-0.5">
+                      →
+                    </span>
+                  </Link>
                 </span>
-              </Link>
+              </span>
               <Link
                 href="/components"
                 className="inline-flex items-center gap-2 border border-glass-border bg-glass px-8 py-3 text-base text-foreground hover:bg-glass-hover hover:border-primary/50 hover:text-primary"
@@ -81,7 +85,7 @@ export default function HomePage() {
               <p className="mb-2 font-mono text-[0.625rem] uppercase tracking-[0.25em] text-muted-foreground">
                 Install
               </p>
-              <div className="flex items-center gap-2 rounded-md border border-input bg-foreground/5 px-4 py-3">
+              <div className="flex items-center gap-2 rounded-md border border-input bg-foreground/5 px-4 py-3 backdrop-blur-md">
                 <span className="shrink-0 font-mono text-primary">❯</span>
                 <code className="overflow-x-auto whitespace-nowrap font-mono text-xs text-foreground">
                   npx shadcn@latest add{" "}

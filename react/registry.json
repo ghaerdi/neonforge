@@ -804,6 +804,24 @@
       ]
     },
     {
+      "name": "glitch-text",
+      "type": "registry:ui",
+      "title": "Glitch Text",
+      "description": "Text distortion primitive — jitter + RGB-split bursts with clipped ghost slices. Opt-in via trigger prop (hover / click / auto).",
+      "dependencies": [],
+      "registryDependencies": [
+        "ghaerdi/neonforge/neonforge",
+        "ghaerdi/neonforge/lib-utils"
+      ],
+      "files": [
+        {
+          "path": "ui/glitch-text.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+
       "name": "hover-card",
       "type": "registry:ui",
       "title": "Hover Card",
