@@ -37,6 +37,10 @@ import {
 import { encodePreset } from "../../lib/preset-codec";
 import { downloadThemeCss } from "../../lib/theme-store";
 import { INSTALL_CMD } from "../../lib/catalog";
+import { useCopy } from "../../lib/use-copy";
+
+/** Import/apply feedback — discriminated so styling never string-matches text. */
+export type ImportMsg = { kind: "ok" | "err"; text: string } | null;
 
 
 function ShapeGlyph({ mode }: { mode: "rect" | "round" }) {
@@ -76,17 +80,7 @@ function GetCodeDialog({
 		[selection],
 	);
 	const code = encodePreset(selection);
-	const [copied, setCopied] = React.useState<string | null>(null);
-
-	const copy = async (label: string, text: string) => {
-		try {
-			await navigator.clipboard.writeText(text);
-		} catch {
-			/* ignore */
-		}
-		setCopied(label);
-		setTimeout(() => setCopied((c) => (c === label ? null : c)), 1400);
-	};
+	const { copiedKey: copied, copy } = useCopy(1400);
 
 	const blocks: {
 		step: string;
@@ -204,7 +198,7 @@ export function CreateSidebar({
 	importKey: string;
 	setImportKey: (v: string) => void;
 	onImport: (key: string) => void;
-	importMsg: string | null;
+	importMsg: ImportMsg;
 }) {
 	const isStreetkid = (selection.style ?? DEFAULTS.style) === "streetkid";
 	const [getOpen, setGetOpen] = React.useState(false);
@@ -429,12 +423,12 @@ export function CreateSidebar({
 					<p
 						className={cn(
 							"mt-2 pl-2 font-mono text-[0.625rem] uppercase tracking-widest",
-							importMsg.startsWith("invalid")
+							importMsg.kind === "err"
 								? "text-destructive"
 								: "text-success",
 						)}
 					>
-						{importMsg}
+						{importMsg.text}
 					</p>
 				) : null}
 			</div>

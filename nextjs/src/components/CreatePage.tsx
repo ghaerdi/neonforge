@@ -28,6 +28,8 @@ import {
 	encodePreset,
 } from "../lib/preset-codec";
 import { Option, match, Result } from "@ghaerdi/rustify";
+import type { ImportMsg } from "./docs/CreateSidebar";
+
 
 export function CreatePage() {
 	// Default theme is streetkid; a ?preset= code overrides it.
@@ -87,7 +89,7 @@ export function CreatePage() {
 	}, [selection]);
 
 	const [importKey, setImportKey] = React.useState("");
-	const [importMsg, setImportMsg] = React.useState<string | null>(null);
+	const [importMsg, setImportMsg] = React.useState<ImportMsg>(null);
 
 	const select = (axis: Axis, value: string) => {
 		const next = { ...selection, [axis]: value };
@@ -99,7 +101,7 @@ export function CreatePage() {
 	const selectStyle = (mode: StyleMode) => {
 		const next = bundledSelection(mode);
 		setSelection(next);
-		setImportMsg(`${mode} genre applied — tunes below override live`);
+		setImportMsg({ kind: "ok", text: `${mode} genre applied — tunes below override live` });
 	};
 
 	const toggleLock = (axis: Axis) => {
@@ -111,10 +113,10 @@ export function CreatePage() {
 		match(codeFromImport(raw).andThen(decodePreset))
 			.with(Result.ok, (parsed) => {
 				setSelection(parsed);
-				setImportMsg("preset imported ✓ applied live");
+				setImportMsg({ kind: "ok", text: "preset imported ✓ applied live" });
 			})
 			.with(Result.err, () =>
-				setImportMsg("invalid preset code — paste a code or ?preset=… link"),
+				setImportMsg({ kind: "err", text: "invalid preset code — paste a code or ?preset=… link" }),
 			)
 			.exhaustive();
 	};

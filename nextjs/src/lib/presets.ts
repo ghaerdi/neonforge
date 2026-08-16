@@ -338,7 +338,6 @@ const CHART_VALUES: Record<OptionValue<"chart">, [number, number, number][]> = {
   ],
 };
 
-/** Resolved CSS font-family per choice (body = everything). */
 /** Resolved CSS font-family per choice — shared by body AND heading. */
 const FONT_BODY_VALUES: Record<OptionValue<"fontBody">, string> = {
   inter: '"Inter", ui-sans-serif, system-ui, sans-serif',

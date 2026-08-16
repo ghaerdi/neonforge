@@ -92,6 +92,10 @@ export default function HomePage() {
                   <span className="text-primary">ghaerdi/neonforge/all</span>
                 </code>
               </div>
+              <p className="mt-2 font-mono text-[0.5625rem] uppercase tracking-widest text-muted-foreground/60">
+                requires <span className="text-foreground/70">npx shadcn@latest init</span> first · then add components
+              </p>
+
             </div>
 
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4">

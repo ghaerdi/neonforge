@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCopy } from "../lib/use-copy";
 import { Clipboard, ClipboardCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,21 +21,11 @@ export function CopyButton({
 	label?: string;
 	className?: string;
 }) {
-	const [copied, setCopied] = useState(false);
-	useEffect(() => {
-		if (!copied) return;
-		const t = setTimeout(() => setCopied(false), 1800);
-		return () => clearTimeout(t);
-	}, [copied]);
+	const { copiedKey, copy } = useCopy();
+	const copied = copiedKey !== null;
 
-	const copy = useCallback(async () => {
-		try {
-			await navigator.clipboard.writeText(value);
-			setCopied(true);
-		} catch {
-			/* clipboard unavailable (e.g. non-secure context) — ignore */
-		}
-	}, [value]);
+	// CopyButton is a single-purpose icon: reuse the hook's "copy" key.
+	const onCopy = () => copy("copy", value);
 
 	return (
 		<TooltipProvider>
@@ -48,7 +38,7 @@ export function CopyButton({
 						aria-label={
 							copied ? "copied to clipboard" : `copy ${label} to clipboard`
 						}
-						onClick={copy}
+						onClick={onCopy}
 						className={cn(
 							"size-6 text-muted-foreground/70 hover:text-primary",
 							copied && "text-success hover:text-success",

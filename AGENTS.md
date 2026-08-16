@@ -13,7 +13,7 @@ aesthetic) with a **Next.js showcase app** in `nextjs/`. Components live in
 | Path | Role |
 | --- | --- |
 | `registry.json` | Root registry — an `include` collection aggregating the nested registries |
-| `react/registry.json` | Library of ~62 `registry:ui` component items |
+| `react/registry.json` | Library of ~63 `registry:ui` component items |
 | `react/ui/*.tsx` | Component source (single source of truth) |
 | `lib/utils.ts` | `cn()` helper (clsx + tailwind-merge) |
 | `styles/theme.css` | Design tokens + utilities (single source of truth for the style item) |
